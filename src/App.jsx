@@ -166,10 +166,10 @@ const InfoModal = ({ isOpen, onClose, activeTab }) => {
             <div className="animate-fade-in space-y-6">
               <div className="flex items-center gap-3 mb-2">
                 <Mountain className="w-8 h-8 text-emerald-600" />
-                <h3 className="text-2xl font-bold text-slate-900">Vetta Italia: Pasión por la Altura</h3>
+                <h3 className="text-2xl font-bold text-slate-900">DOLOVIBES: Pasión por la Altura</h3>
               </div>
               <p className="text-slate-600 leading-relaxed">
-                Fundada en 2015 por un grupo de guías alpinos y amantes de la cultura italiana, Vetta Italia nació con un propósito simple:
+                Fundada en 2015 por un grupo de guías alpinos y amantes de la cultura italiana, DOLOVIBES nació con un propósito simple:
                 mostrar la Italia que no aparece en las postales turísticas habituales.
               </p>
               <p className="text-slate-600 leading-relaxed">
@@ -382,7 +382,7 @@ const ContactModal = ({ isOpen, onClose, initialInterest = "" }) => {
                 <CheckCircle className="w-8 h-8 text-emerald-600" />
               </div>
               <h3 className="text-2xl font-bold text-slate-800 mb-2">¡Solicitud Recibida!</h3>
-              <p className="text-slate-600">Un experto de Vetta Italia te contactará pronto para planificar tu viaje.</p>
+              <p className="text-slate-600">Un experto de DOLOVIBES te contactará pronto para planificar tu viaje.</p>
             </div>
           )}
         </div>
@@ -522,7 +522,7 @@ const Navbar = ({ onOpenContact }) => {
         <div className="flex items-center gap-2 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
           <Mountain className={`w-8 h-8 ${scrolled ? 'text-emerald-700' : 'text-emerald-500'}`} />
           <span className={`text-2xl font-bold tracking-tighter ${scrolled ? 'text-slate-800' : 'text-white'}`}>
-            VETTA ITALIA
+            DOLOVIBES
           </span>
         </div>
 
@@ -721,7 +721,7 @@ const Guides = () => {
 const Testimonials = () => {
   const testimonials = [
     {
-      quote: "La expedición a Gran Paradiso fue la cumbre más épica de mi vida. La organización, la seguridad y la calidez del equipo Vetta Italia son insuperables.",
+      quote: "La expedición a Gran Paradiso fue la cumbre más épica de mi vida. La organización, la seguridad y la calidez del equipo DOLOVIBES son insuperables.",
       name: "Alejandro M.",
       location: "Ciudad de México, MX"
     },
@@ -895,7 +895,7 @@ const Footer = ({ onOpenInfo, onScrollToGuides, onOpenContact }) => {
           <div>
             <div className="flex items-center gap-2 mb-6">
               <Mountain className="w-6 h-6 text-emerald-500" />
-              <span className="text-xl font-bold text-white">VETTA ITALIA</span>
+              <span className="text-xl font-bold text-white">DOLOVIBES</span>
             </div>
             <p className="text-sm leading-relaxed mb-6">
               Especialistas en turismo de montaña sostenible y de lujo en las regiones más espectaculares de Italia.
@@ -962,7 +962,7 @@ const Footer = ({ onOpenInfo, onScrollToGuides, onOpenContact }) => {
         </div>
 
         <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center text-xs">
-          <p>&copy; 2025 Vetta Italia Tours. Todos los derechos reservados.</p>
+          <p>&copy; 2025 DOLOVIBES Tours. Todos los derechos reservados.</p>
           <div className="flex gap-6 mt-4 md:mt-0">
             <a href="#" className="hover:text-white">Privacidad</a>
             <a href="#" className="hover:text-white">Términos</a>

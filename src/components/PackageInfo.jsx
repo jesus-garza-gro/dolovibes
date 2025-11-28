@@ -46,7 +46,7 @@ const PackageInfo = ({ tour, onClose }) => {
         <div className="min-h-screen bg-slate-50">
             {/* Navigation Bar */}
             <nav className="bg-white shadow-sm h-20 flex items-center justify-between px-8 sticky top-0 z-50">
-                <span className="font-serif text-2xl font-bold text-emerald-700 tracking-wider">VETTA ITALIA</span>
+                <span className="font-serif text-2xl font-bold text-emerald-700 tracking-wider">DOLOVIBES</span>
                 <button
                     onClick={onClose}
                     className="text-sm font-bold text-slate-500 hover:text-emerald-600 uppercase tracking-widest flex items-center gap-2 transition-colors"
@@ -262,7 +262,7 @@ const PackageInfo = ({ tour, onClose }) => {
 
             {/* Footer */}
             <footer className="bg-slate-900 text-white py-8 text-center text-sm">
-                <p>© 2025 Vetta Italia. Todos los derechos reservados.</p>
+                <p>© 2025 DOLOVIBES. Todos los derechos reservados.</p>
             </footer>
         </div>
     );
