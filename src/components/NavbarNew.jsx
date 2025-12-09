@@ -87,52 +87,48 @@ const NavbarNew = ({ onOpenQuote }) => {
                             </button>
 
                             {/* Dropdown Menu */}
-                            <div className={`absolute top-full left-0 mt-2 w-80 transition-all duration-300 ${isExperiencesOpen
+                            <div className={`absolute top-full left-0 mt-2 transition-all duration-300 ${isExperiencesOpen
                                 ? 'opacity-100 visible translate-y-0'
                                 : 'opacity-0 invisible -translate-y-2'
                                 }`}>
-                                <div className="bg-white rounded-2xl shadow-2xl border border-slate-100 overflow-hidden">
-                                    <div className="p-3">
-                                        <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider px-3 py-2">
-                                            {t('navbar.ourExperiences')}
-                                        </p>
-                                        <div className="space-y-1">
-                                            {experiences.map((exp) => (
-                                                <button
-                                                    key={exp.id}
-                                                    onClick={() => handleExperienceClick(exp.slug)}
-                                                    className="w-full flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-emerald-50 transition-colors group text-left"
-                                                >
-                                                    <img
-                                                        src={exp.image}
-                                                        alt={exp.title}
-                                                        className="w-12 h-10 object-cover rounded-lg"
-                                                    />
-                                                    <div className="flex-1 min-w-0">
-                                                        <h4 className="font-semibold text-slate-800 group-hover:text-emerald-600 transition-colors text-sm truncate">
+                                <div className="bg-white rounded-xl shadow-2xl border border-slate-100 overflow-hidden p-5 min-w-[320px]">
+                                    <div className="grid grid-cols-2 gap-8">
+                                        {/* Verano */}
+                                        <div>
+                                            <p className="text-xs font-semibold text-amber-600 uppercase tracking-wider mb-3 flex items-center gap-1">
+                                                ☀️ Verano
+                                            </p>
+                                            <ul className="space-y-2">
+                                                {experiences.filter(exp => exp.season === 'verano').map((exp) => (
+                                                    <li key={exp.id}>
+                                                        <button
+                                                            onClick={() => handleExperienceClick(exp.slug)}
+                                                            className="text-slate-700 hover:text-emerald-600 font-medium text-sm transition-colors"
+                                                        >
                                                             {exp.title}
-                                                        </h4>
-                                                        <p className="text-xs text-slate-500 truncate">
-                                                            {exp.shortDescription}
-                                                        </p>
-                                                    </div>
-                                                    <span className={`text-xs font-bold px-2 py-1 rounded-full ${exp.season === 'verano'
-                                                        ? 'bg-amber-100 text-amber-700'
-                                                        : 'bg-blue-100 text-blue-700'
-                                                        }`}>
-                                                        {exp.season === 'verano' ? '☀️' : '❄️'}
-                                                    </span>
-                                                </button>
-                                            ))}
+                                                        </button>
+                                                    </li>
+                                                ))}
+                                            </ul>
                                         </div>
-                                    </div>
-                                    <div className="bg-slate-50 px-6 py-4 border-t border-slate-100">
-                                        <Link
-                                            to="/"
-                                            className="text-emerald-600 font-semibold text-sm hover:text-emerald-700 transition-colors"
-                                        >
-                                            {t('navbar.viewAllExperiences')}
-                                        </Link>
+                                        {/* Invierno */}
+                                        <div>
+                                            <p className="text-xs font-semibold text-blue-600 uppercase tracking-wider mb-3 flex items-center gap-1">
+                                                ❄️ Invierno
+                                            </p>
+                                            <ul className="space-y-2">
+                                                {experiences.filter(exp => exp.season === 'invierno').map((exp) => (
+                                                    <li key={exp.id}>
+                                                        <button
+                                                            onClick={() => handleExperienceClick(exp.slug)}
+                                                            className="text-slate-700 hover:text-emerald-600 font-medium text-sm transition-colors"
+                                                        >
+                                                            {exp.title}
+                                                        </button>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
