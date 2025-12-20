@@ -12,15 +12,15 @@ const VideoHero = ({ onExperienceSelect }) => {
     const fallbackImage = "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=1920";
 
     return (
-        <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <div className="relative min-h-screen flex items-center justify-center">
             {/* Video de fondo */}
-            <div className="absolute inset-0 z-0">
+            <div className="absolute inset-0 z-0 overflow-hidden">
                 <video
                     autoPlay
                     loop
                     muted
                     playsInline
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover md:object-center object-[70%_center]"
                     poster={fallbackImage}
                 >
                     <source src={videoUrl} type="video/mp4" />
@@ -32,8 +32,8 @@ const VideoHero = ({ onExperienceSelect }) => {
                     />
                 </video>
 
-                {/* Overlay con gradiente para mejor legibilidad */}
-                <div className="absolute inset-0 bg-gradient-to-b from-slate-900/70 via-slate-900/50 to-slate-900/80"></div>
+                {/* Overlay con gradiente para mejor legibilidad - más claro */}
+                <div className="absolute inset-0 bg-gradient-to-b from-slate-900/40 via-slate-900/20 to-slate-900/50"></div>
 
                 {/* Efecto de viñeta */}
                 <div className="absolute inset-0 bg-radial-gradient"></div>

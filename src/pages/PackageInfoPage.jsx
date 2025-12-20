@@ -32,6 +32,12 @@ const PackageInfoPage = ({ onOpenQuote }) => {
     // Estado para el modal de cotización
     const [isQuoteModalOpen, setIsQuoteModalOpen] = useState(false);
 
+    // Estado para el modal de fotos adicionales
+    const [isPhotosModalOpen, setIsPhotosModalOpen] = useState(false);
+
+    // Estado para el modal de mapa
+    const [isMapModalOpen, setIsMapModalOpen] = useState(false);
+
     // Referencia para la sección de itinerario (para swipe/wheel)
     const itineraryRef = React.useRef(null);
 
@@ -106,65 +112,57 @@ const PackageInfoPage = ({ onOpenQuote }) => {
 
     return (
         <div className="min-h-screen bg-white">
-            {/* Hero de paquete */}
-            <div className="relative h-[60vh] md:h-[70vh]">
+            {/* Hero - Pantalla completa */}
+            <div className="relative min-h-screen flex items-end">
                 <img
                     src={pkg.heroImage || pkg.image}
                     alt={pkg.title}
-                    className="w-full h-full object-cover"
+                    className="absolute inset-0 w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/50 to-transparent"></div>
-
-                {/* Botón volver */}
-                <button
-                    onClick={() => navigate(-1)}
-                    className="absolute top-24 left-6 md:left-12 flex items-center gap-2 text-white/80 hover:text-white transition-colors bg-black/20 backdrop-blur-sm px-4 py-2 rounded-full"
-                >
-                    <ArrowLeft className="w-4 h-4" />
-                    <span className="text-sm font-medium">{tCommon('buttons.goBack')}</span>
-                </button>
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent"></div>
 
                 {/* Info superpuesta */}
-                <div className="absolute bottom-0 left-0 right-0 p-6 md:p-12">
+                <div className="relative z-10 p-6 md:p-12 pb-16 md:pb-24 w-full">
                     <div className="container mx-auto">
-                        <div className="flex flex-wrap gap-2 mb-4">
-                            {pkg.tags.map(tag => (
-                                <span
-                                    key={tag}
-                                    className="bg-white/20 backdrop-blur-sm text-white text-xs font-bold px-3 py-1 rounded-full"
-                                >
-                                    {tag}
-                                </span>
-                            ))}
-                            <span className={`text-xs font-bold px-3 py-1 rounded-full ${pkg.season === 'verano'
-                                ? 'bg-amber-500 text-white'
-                                : 'bg-blue-500 text-white'
-                                }`}>
-                                {pkg.season === 'verano' ? `☀️ ${tCommon('seasons.summer')}` : `❄️ ${tCommon('seasons.winter')}`}
-                            </span>
-                        </div>
-
-                        <h1 className="text-3xl md:text-5xl font-bold text-white mb-3">
+                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-4">
                             {pkg.title}
                         </h1>
 
-                        <div className="flex flex-wrap items-center gap-4 text-white/80">
-                            <span className="flex items-center gap-1">
+                        <p className="text-xl md:text-2xl text-white/80 max-w-3xl mb-6">
+                            {pkg.description}
+                        </p>
+
+                        <div className="flex flex-wrap items-center gap-4 text-white/90">
+                            <span className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full">
                                 <MapPin className="w-4 h-4" />
                                 {pkg.location}
                             </span>
-                            <span className="flex items-center gap-1">
+                            <span className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full">
                                 <Clock className="w-4 h-4" />
                                 {pkg.duration}
                             </span>
-                            <span className="flex items-center gap-1">
-                                <Star className="w-4 h-4 text-amber-400" />
-                                {pkg.rating}
+                            <span className={`flex items-center gap-2 px-4 py-2 rounded-full font-medium ${pkg.difficulty?.toLowerCase().includes('bajo') || pkg.difficulty?.toLowerCase().includes('fácil')
+                                ? 'bg-green-500/80 text-white'
+                                : pkg.difficulty?.toLowerCase().includes('intermedio') || pkg.difficulty?.toLowerCase().includes('moderado')
+                                    ? 'bg-amber-500/80 text-white'
+                                    : 'bg-red-500/80 text-white'
+                                }`}>
+                                {pkg.difficulty}
                             </span>
-                            <span className="flex items-center gap-1">
+                            <span className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full">
                                 <Users className="w-4 h-4" />
                                 {pkg.groupSize}
                             </span>
+                            {pkg.guideType && (
+                                <span className="flex items-center gap-2 bg-emerald-500/80 px-4 py-2 rounded-full font-medium text-white">
+                                    {pkg.guideType}
+                                </span>
+                            )}
+                            {pkg.availableDates && (
+                                <span className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full">
+                                    {pkg.availableDates}
+                                </span>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -266,26 +264,44 @@ const PackageInfoPage = ({ onOpenQuote }) => {
                 </div>
             </section>
 
-            {/* Sección de Costos */}
+            {/* Sección de Detalles - Texto izquierda, Imagen derecha */}
             <section className="py-16 md:py-24">
                 <div className="container mx-auto px-6">
                     <div className="grid lg:grid-cols-2 gap-12 items-start">
-                        {/* Columna izquierda - Incluye / No incluye */}
+                        {/* Columna izquierda - Detalles */}
                         <div>
-                            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-8">
-                                ¿Qué incluye?
-                            </h2>
+                            {/* Precio destacado */}
+                            <div className="mb-8">
+                                <p className="text-slate-500 text-sm uppercase tracking-wider mb-1">
+                                    Precio por persona
+                                </p>
+                                <div className="flex items-baseline gap-3">
+                                    {pkg.originalPrice && (
+                                        <span className="text-slate-400 line-through text-xl">
+                                            {pkg.originalPrice}
+                                        </span>
+                                    )}
+                                    <span className="text-4xl md:text-5xl font-bold text-emerald-600">
+                                        {pkg.price}
+                                    </span>
+                                </div>
+                            </div>
+
+                            {/* Descripción breve */}
+                            <p className="text-lg text-slate-600 leading-relaxed mb-8">
+                                {pkg.description}
+                            </p>
 
                             {/* Incluye - Desplegables */}
-                            <div className="space-y-3 mb-10">
+                            <div className="space-y-3 mb-6">
                                 {pkg.includes.map((item, index) => (
                                     <div
                                         key={index}
-                                        className="bg-emerald-50 rounded-xl overflow-hidden border border-emerald-100"
+                                        className="bg-slate-50 rounded-xl overflow-hidden border border-slate-200"
                                     >
                                         <button
                                             onClick={() => toggleInclude(index)}
-                                            className="w-full flex items-center justify-between p-4 text-left hover:bg-emerald-100/50 transition-colors"
+                                            className="w-full flex items-center justify-between p-4 text-left hover:bg-slate-100 transition-colors"
                                         >
                                             <div className="flex items-center gap-3">
                                                 <div className="w-8 h-8 bg-emerald-600 rounded-full flex items-center justify-center flex-shrink-0">
@@ -295,7 +311,7 @@ const PackageInfoPage = ({ onOpenQuote }) => {
                                                     {item.label}
                                                 </span>
                                             </div>
-                                            <ChevronDown className={`w-5 h-5 text-emerald-600 transition-transform duration-300 ${expandedInclude === index ? 'rotate-180' : ''
+                                            <ChevronDown className={`w-5 h-5 text-slate-400 transition-transform duration-300 ${expandedInclude === index ? 'rotate-180' : ''
                                                 }`} />
                                         </button>
 
@@ -312,86 +328,117 @@ const PackageInfoPage = ({ onOpenQuote }) => {
                                 ))}
                             </div>
 
-                            {/* No incluye */}
-                            <h3 className="text-xl font-bold text-slate-900 mb-4">
-                                No incluye
-                            </h3>
-                            <div className="space-y-2">
-                                {pkg.notIncludes.map((item, index) => (
-                                    <div key={index} className="flex items-center gap-3 text-slate-600">
-                                        <div className="w-6 h-6 bg-slate-200 rounded-full flex items-center justify-center flex-shrink-0">
-                                            <X className="w-3 h-3 text-slate-500" />
+                            {/* Botones adicionales */}
+                            <div className="space-y-3">
+                                {/* Additional Photos */}
+                                <button
+                                    onClick={() => setIsPhotosModalOpen(true)}
+                                    className="w-full flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-200 hover:bg-slate-100 transition-colors text-left"
+                                >
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-8 h-8 bg-slate-700 rounded-full flex items-center justify-center">
+                                            <span className="text-white text-sm">📷</span>
                                         </div>
-                                        <span>{item}</span>
+                                        <span className="font-semibold text-slate-800">Additional Photos</span>
                                     </div>
-                                ))}
+                                    <ChevronRight className="w-5 h-5 text-slate-400" />
+                                </button>
+
+                                {/* How to get here */}
+                                <button
+                                    onClick={() => setIsMapModalOpen(true)}
+                                    className="w-full flex items-center justify-between p-4 bg-slate-50 rounded-xl border border-slate-200 hover:bg-slate-100 transition-colors text-left"
+                                >
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-8 h-8 bg-slate-700 rounded-full flex items-center justify-center">
+                                            <MapPin className="w-4 h-4 text-white" />
+                                        </div>
+                                        <span className="font-semibold text-slate-800">How to get here</span>
+                                    </div>
+                                    <ChevronRight className="w-5 h-5 text-slate-400" />
+                                </button>
                             </div>
                         </div>
 
-                        {/* Columna derecha - Precio y CTA */}
+                        {/* Columna derecha - Imagen con Book Now */}
                         <div className="lg:sticky lg:top-28">
-                            <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl p-8 md:p-10 text-white shadow-2xl">
-                                <div className="text-center mb-8">
-                                    <p className="text-slate-400 text-sm uppercase tracking-wider mb-2">
-                                        Precio por persona
+                            <div className="relative rounded-3xl overflow-hidden shadow-2xl">
+                                <img
+                                    src={pkg.heroImage || pkg.image}
+                                    alt={pkg.title}
+                                    className="w-full h-[400px] md:h-[500px] object-cover"
+                                />
+                                {/* Overlay gradient */}
+                                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent"></div>
+
+                                {/* Book Now Button */}
+                                <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
+                                    <button
+                                        onClick={() => setIsQuoteModalOpen(true)}
+                                        className="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-4 rounded-xl font-bold text-lg transition-all transform hover:scale-[1.02] shadow-lg shadow-emerald-600/30"
+                                    >
+                                        Cotizar
+                                    </button>
+                                    <p className="text-center text-white/70 text-sm mt-3">
+                                        Te responderemos en menos de 24 horas
                                     </p>
-                                    {pkg.originalPrice && (
-                                        <p className="text-slate-500 line-through text-lg">
-                                            {pkg.originalPrice}
-                                        </p>
-                                    )}
-                                    <p className="text-4xl md:text-5xl font-bold text-white">
-                                        {pkg.price}
-                                    </p>
                                 </div>
-
-                                {/* Info rápida */}
-                                <div className="space-y-4 mb-8 pb-8 border-b border-white/10">
-                                    <div className="flex justify-between items-center">
-                                        <span className="text-slate-400">Duración</span>
-                                        <span className="font-semibold">{pkg.duration}</span>
-                                    </div>
-                                    <div className="flex justify-between items-center">
-                                        <span className="text-slate-400">Grupo</span>
-                                        <span className="font-semibold">{pkg.groupSize}</span>
-                                    </div>
-                                    <div className="flex justify-between items-center">
-                                        <span className="text-slate-400">Dificultad</span>
-                                        <span className="font-semibold">{pkg.difficulty}</span>
-                                    </div>
-                                </div>
-
-                                {/* Fechas disponibles */}
-                                <div className="mb-8">
-                                    <p className="text-slate-400 text-sm mb-3">Próximas salidas:</p>
-                                    <div className="flex flex-wrap gap-2">
-                                        {pkg.startDates.slice(0, 3).map((date, index) => (
-                                            <span
-                                                key={index}
-                                                className="bg-white/10 px-3 py-1 rounded-full text-sm"
-                                            >
-                                                {date}
-                                            </span>
-                                        ))}
-                                    </div>
-                                </div>
-
-                                {/* Botón Cotizar */}
-                                <button
-                                    onClick={() => setIsQuoteModalOpen(true)}
-                                    className="w-full bg-emerald-600 hover:bg-emerald-500 text-white py-4 rounded-xl font-bold text-lg transition-all transform hover:scale-[1.02] shadow-lg shadow-emerald-600/30"
-                                >
-                                    {tCommon('navbar.quote')}
-                                </button>
-
-                                <p className="text-center text-slate-500 text-sm mt-4">
-                                    Te responderemos en menos de 24 horas
-                                </p>
                             </div>
+
+
                         </div>
                     </div>
                 </div>
             </section>
+
+            {/* Modal de Fotos Adicionales */}
+            {isPhotosModalOpen && (
+                <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4" onClick={() => setIsPhotosModalOpen(false)}>
+                    <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden" onClick={(e) => e.stopPropagation()}>
+                        <div className="flex items-center justify-between p-6 border-b border-slate-200">
+                            <h3 className="text-xl font-bold text-slate-900">Additional Photos</h3>
+                            <button onClick={() => setIsPhotosModalOpen(false)} className="p-2 hover:bg-slate-100 rounded-full">
+                                <X className="w-5 h-5 text-slate-600" />
+                            </button>
+                        </div>
+                        <div className="p-6 overflow-y-auto max-h-[70vh]">
+                            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                {pkg.itinerary?.map((day, index) => (
+                                    <img
+                                        key={index}
+                                        src={day.image}
+                                        alt={`Foto ${index + 1}`}
+                                        className="w-full h-40 object-cover rounded-xl hover:scale-105 transition-transform cursor-pointer"
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Modal de Mapa */}
+            {isMapModalOpen && (
+                <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4" onClick={() => setIsMapModalOpen(false)}>
+                    <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden" onClick={(e) => e.stopPropagation()}>
+                        <div className="flex items-center justify-between p-6 border-b border-slate-200">
+                            <h3 className="text-xl font-bold text-slate-900">How to get here</h3>
+                            <button onClick={() => setIsMapModalOpen(false)} className="p-2 hover:bg-slate-100 rounded-full">
+                                <X className="w-5 h-5 text-slate-600" />
+                            </button>
+                        </div>
+                        <div className="p-6">
+                            <div className="bg-slate-100 rounded-xl h-80 flex items-center justify-center">
+                                <div className="text-center">
+                                    <MapPin className="w-12 h-12 text-slate-400 mx-auto mb-4" />
+                                    <p className="text-slate-600">Mapa próximamente</p>
+                                    <p className="text-slate-400 text-sm mt-2">{pkg.location}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* Modal de Cotización */}
             <PackageQuoteModal

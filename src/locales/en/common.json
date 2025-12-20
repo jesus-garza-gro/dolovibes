@@ -1,0 +1,67 @@
+{
+    "navbar": {
+        "experiences": "Experiences",
+        "ourExperiences": "Our Experiences",
+        "packages": "Packages",
+        "ourPackages": "Our Packages",
+        "aboutUs": "About Us",
+        "quote": "Get Quote",
+        "viewAllExperiences": "View all experiences →",
+        "viewAllPackages": "View all packages →"
+    },
+    "seasons": {
+        "summer": "Summer",
+        "winter": "Winter"
+    },
+    "buttons": {
+        "next": "Next Step",
+        "back": "Back",
+        "submit": "Submit Request",
+        "close": "Close",
+        "goBack": "Go Back",
+        "backToHome": "Back to Home"
+    },
+    "labels": {
+        "perPerson": "per person",
+        "days": "Days",
+        "persons": "Pers."
+    },
+    "recommendations": {
+        "basedOnSelection": "Based on your selection",
+        "title": "Our Recommendations",
+        "subtitle": "The best trips of {{experience}} for you",
+        "offer": "SALE",
+        "viewDetails": "View details"
+    },
+    "footer": {
+        "description": "Unique mountain experiences in the Italian Dolomites. Adventure, nature, and culture in every trip.",
+        "experiences": "Experiences",
+        "information": "Information",
+        "contact": "Contact",
+        "bookingConditions": "Booking Conditions",
+        "cancellationPolicy": "Cancellation Policy",
+        "contractInfo": "Contract Information",
+        "privacyPolicy": "Privacy Policy",
+        "cookiePolicy": "Cookie Policy",
+        "copyrights": "Copyrights",
+        "allRightsReserved": "All rights reserved."
+    },
+    "quoteModal": {
+        "title": "Request Your Quote",
+        "step": "Step",
+        "of": "of",
+        "step1Title": "What do you have in mind?",
+        "step2Title": "Your Contact Information",
+        "interestLabel": "Main Interest",
+        "customPlan": "Custom Plan",
+        "dateLabel": "Approximate Date",
+        "travelersLabel": "Travelers",
+        "notesLabel": "Notes or Special Requests",
+        "notesPlaceholder": "E.g.: I want to see the sunset in the Dolomites, medium fitness level...",
+        "namePlaceholder": "Full Name",
+        "emailPlaceholder": "Email",
+        "phonePlaceholder": "Phone (WhatsApp)",
+        "successTitle": "Request Received!",
+        "successMessage": "A DOLOVIBES expert will contact you soon to plan your trip."
+    }
+}

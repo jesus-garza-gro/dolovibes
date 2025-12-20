@@ -8,7 +8,7 @@ export const packages = [
         experienceSlug: "hut-2-hut", // Referencia a la experiencia
         title: "Hut 2 Hut - Dolomitas Clásico",
         slug: "hut-2-hut-dolomitas-clasico",
-        location: "Cortina d'Ampezzo, Dolomitas",
+        location: "Dolomitas",
         price: "MXN 25,000",
         duration: "5 Días",
         rating: 4.9,
@@ -59,6 +59,8 @@ export const packages = [
         notIncludes: ["Vuelos internacionales", "Almuerzos", "Seguro de viaje", "Propinas"],
         difficulty: "Intermedio",
         groupSize: "4-8 personas",
+        guideType: "Guiado",
+        availableDates: "Junio - Septiembre",
         startDates: ["15 Jun 2025", "22 Jun 2025", "6 Jul 2025", "20 Jul 2025"]
     },
     {
@@ -95,6 +97,8 @@ export const packages = [
         notIncludes: ["Vuelos", "Almuerzos", "Seguro", "Propinas"],
         difficulty: "Avanzado",
         groupSize: "4-6 personas",
+        guideType: "Guiado",
+        availableDates: "Julio - Agosto",
         startDates: ["1 Jul 2025", "15 Jul 2025", "1 Ago 2025"]
     },
 

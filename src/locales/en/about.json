@@ -1,0 +1,20 @@
+{
+    "title": "About Us",
+    "photoAlt": "Our clients",
+    "origin": {
+        "title": "How Dolovibes was born",
+        "text": "Text about the origin of Dolovibes. Here you can tell the story of how the company started, what motivated its creation, and the first steps of the project."
+    },
+    "essence": {
+        "title": "Our Essence",
+        "text": "Text about the essence of Dolovibes. Describe what makes the company unique, its core values, and what sets it apart from other options."
+    },
+    "vision": {
+        "title": "Vision",
+        "text": "Text about the vision of Dolovibes. Describe where the company is headed and what impact it wants to have in the future."
+    },
+    "mission": {
+        "title": "Mission",
+        "text": "Text about the mission of Dolovibes. Explain the main purpose of the company and how it seeks to serve its customers."
+    }
+}

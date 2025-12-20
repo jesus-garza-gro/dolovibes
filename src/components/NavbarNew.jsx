@@ -3,6 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Mountain, Menu, X, ChevronDown } from 'lucide-react';
 import { experiences } from '../data/experiences';
+import LanguageSwitcher from './LanguageSwitcher';
 
 const NavbarNew = ({ onOpenQuote }) => {
     const { t } = useTranslation('common');
@@ -86,24 +87,31 @@ const NavbarNew = ({ onOpenQuote }) => {
                                     }`} />
                             </button>
 
-                            {/* Dropdown Menu */}
-                            <div className={`absolute top-full left-0 mt-2 transition-all duration-300 ${isExperiencesOpen
+                            {/* Mega Dropdown Menu */}
+                            <div className={`absolute top-full left-1/2 -translate-x-1/2 mt-2 transition-all duration-300 ${isExperiencesOpen
                                 ? 'opacity-100 visible translate-y-0'
                                 : 'opacity-0 invisible -translate-y-2'
                                 }`}>
-                                <div className="bg-white rounded-xl shadow-2xl border border-slate-100 overflow-hidden p-5 min-w-[320px]">
-                                    <div className="grid grid-cols-2 gap-8">
+                                <div className="bg-white rounded-xl shadow-2xl border border-slate-200 overflow-hidden min-w-[480px]">
+                                    {/* Header */}
+                                    <div className="bg-slate-50 px-6 py-3">
+                                        <h3 className="text-sm font-semibold text-slate-700 uppercase tracking-wider">
+                                            {t('navbar.ourExperiences')}
+                                        </h3>
+                                    </div>
+
+                                    <div className="grid grid-cols-2">
                                         {/* Verano */}
-                                        <div>
-                                            <p className="text-xs font-semibold text-amber-600 uppercase tracking-wider mb-3 flex items-center gap-1">
-                                                ☀️ Verano
-                                            </p>
-                                            <ul className="space-y-2">
+                                        <div className="p-5">
+                                            <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4">
+                                                {t('seasons.summer')}
+                                            </h4>
+                                            <ul className="space-y-1">
                                                 {experiences.filter(exp => exp.season === 'verano').map((exp) => (
                                                     <li key={exp.id}>
                                                         <button
                                                             onClick={() => handleExperienceClick(exp.slug)}
-                                                            className="text-slate-700 hover:text-emerald-600 font-medium text-sm transition-colors"
+                                                            className="w-full text-left px-3 py-2 text-slate-700 hover:text-slate-900 hover:bg-slate-50 rounded-lg font-medium text-sm transition-colors"
                                                         >
                                                             {exp.title}
                                                         </button>
@@ -111,17 +119,18 @@ const NavbarNew = ({ onOpenQuote }) => {
                                                 ))}
                                             </ul>
                                         </div>
+
                                         {/* Invierno */}
-                                        <div>
-                                            <p className="text-xs font-semibold text-blue-600 uppercase tracking-wider mb-3 flex items-center gap-1">
-                                                ❄️ Invierno
-                                            </p>
-                                            <ul className="space-y-2">
+                                        <div className="p-5">
+                                            <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-4">
+                                                {t('seasons.winter')}
+                                            </h4>
+                                            <ul className="space-y-1">
                                                 {experiences.filter(exp => exp.season === 'invierno').map((exp) => (
                                                     <li key={exp.id}>
                                                         <button
                                                             onClick={() => handleExperienceClick(exp.slug)}
-                                                            className="text-slate-700 hover:text-emerald-600 font-medium text-sm transition-colors"
+                                                            className="w-full text-left px-3 py-2 text-slate-700 hover:text-slate-900 hover:bg-slate-50 rounded-lg font-medium text-sm transition-colors"
                                                         >
                                                             {exp.title}
                                                         </button>
@@ -152,6 +161,9 @@ const NavbarNew = ({ onOpenQuote }) => {
                         >
                             {t('navbar.quote')}
                         </button>
+
+                        {/* Language Switcher */}
+                        <LanguageSwitcher isDarkMode={isDarkMode} />
                     </div>
 
                     {/* Mobile Menu Button */}
@@ -179,23 +191,39 @@ const NavbarNew = ({ onOpenQuote }) => {
                             <ChevronDown className={`w-5 h-5 transition-transform ${isExperiencesOpen ? 'rotate-180' : ''}`} />
                         </button>
 
-                        <div className={`overflow-hidden transition-all duration-300 ${isExperiencesOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+                        <div className={`overflow-hidden transition-all duration-300 ${isExperiencesOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
                             }`}>
-                            <div className="pl-4 space-y-2 pb-2">
-                                {experiences.map((exp) => (
-                                    <button
-                                        key={exp.id}
-                                        onClick={() => handleExperienceClick(exp.slug)}
-                                        className="w-full flex items-center gap-3 py-2 text-left text-slate-600 hover:text-emerald-600"
-                                    >
-                                        <img
-                                            src={exp.image}
-                                            alt={exp.title}
-                                            className="w-10 h-8 object-cover rounded"
-                                        />
-                                        <span className="text-sm">{exp.title}</span>
-                                    </button>
-                                ))}
+                            <div className="py-2">
+                                {/* Verano */}
+                                <div className="mb-4">
+                                    <p className="text-xs font-bold text-slate-400 uppercase tracking-wider px-3 py-2">
+                                        {t('seasons.summer')}
+                                    </p>
+                                    {experiences.filter(exp => exp.season === 'verano').map((exp) => (
+                                        <button
+                                            key={exp.id}
+                                            onClick={() => handleExperienceClick(exp.slug)}
+                                            className="w-full text-left px-3 py-2 text-slate-700 hover:text-slate-900 hover:bg-slate-50 rounded-lg text-sm font-medium"
+                                        >
+                                            {exp.title}
+                                        </button>
+                                    ))}
+                                </div>
+                                {/* Invierno */}
+                                <div>
+                                    <p className="text-xs font-bold text-slate-400 uppercase tracking-wider px-3 py-2">
+                                        {t('seasons.winter')}
+                                    </p>
+                                    {experiences.filter(exp => exp.season === 'invierno').map((exp) => (
+                                        <button
+                                            key={exp.id}
+                                            onClick={() => handleExperienceClick(exp.slug)}
+                                            className="w-full text-left px-3 py-2 text-slate-700 hover:text-slate-900 hover:bg-slate-50 rounded-lg text-sm font-medium"
+                                        >
+                                            {exp.title}
+                                        </button>
+                                    ))}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -216,6 +244,11 @@ const NavbarNew = ({ onOpenQuote }) => {
                     >
                         {t('navbar.quote')}
                     </button>
+
+                    {/* Language Switcher - Mobile */}
+                    <div className="mt-4 pt-4 border-t border-slate-100 flex justify-center">
+                        <LanguageSwitcher isDarkMode={true} />
+                    </div>
                 </div>
             </div>
         </nav>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ChevronDown, Snowflake, Sun } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import { getExperiencesBySeason, getExperienceBySlug } from '../data/experiences';
 import { getPackagesByExperience } from '../data/packages';
 
@@ -58,7 +58,7 @@ const ExperienceSelector = ({ onExperienceSelect }) => {
 
     return (
         <div className="flex flex-col items-center gap-8">
-            {/* Pregunta 1: ¿Cuándo? */}
+            {/* Pregunta 1: Tu próxima aventura */}
             <div className={`transition-all duration-500 ${step >= 1 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
                 <h2 className="text-white text-2xl md:text-4xl font-bold text-center mb-6 drop-shadow-lg">
                     {t('selector.whenQuestion')}
@@ -67,23 +67,21 @@ const ExperienceSelector = ({ onExperienceSelect }) => {
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                     <button
                         onClick={() => handleSeasonSelect('verano')}
-                        className={`group relative px-8 py-4 rounded-2xl font-bold text-lg transition-all duration-300 flex items-center gap-3 ${selectedSeason === 'verano'
-                            ? 'bg-amber-500 text-white scale-105 shadow-xl shadow-amber-500/30'
-                            : 'bg-white/10 backdrop-blur-md border border-white/30 text-white hover:bg-amber-500/80 hover:border-amber-400'
+                        className={`group relative px-8 py-4 rounded-2xl font-bold text-lg transition-all duration-300 ${selectedSeason === 'verano'
+                            ? 'bg-emerald-600 text-white scale-105 shadow-xl shadow-emerald-600/30'
+                            : 'bg-white/10 backdrop-blur-md border border-white/30 text-white hover:bg-slate-100/20 hover:border-slate-200/50'
                             }`}
                     >
-                        <Sun className={`w-6 h-6 transition-transform group-hover:rotate-45 ${selectedSeason === 'verano' ? 'animate-spin-slow' : ''}`} />
                         {tCommon('seasons.summer')}
                     </button>
 
                     <button
                         onClick={() => handleSeasonSelect('invierno')}
-                        className={`group relative px-8 py-4 rounded-2xl font-bold text-lg transition-all duration-300 flex items-center gap-3 ${selectedSeason === 'invierno'
-                            ? 'bg-blue-500 text-white scale-105 shadow-xl shadow-blue-500/30'
-                            : 'bg-white/10 backdrop-blur-md border border-white/30 text-white hover:bg-blue-500/80 hover:border-blue-400'
+                        className={`group relative px-8 py-4 rounded-2xl font-bold text-lg transition-all duration-300 ${selectedSeason === 'invierno'
+                            ? 'bg-emerald-600 text-white scale-105 shadow-xl shadow-emerald-600/30'
+                            : 'bg-white/10 backdrop-blur-md border border-white/30 text-white hover:bg-slate-100/20 hover:border-slate-200/50'
                             }`}
                     >
-                        <Snowflake className={`w-6 h-6 transition-transform group-hover:rotate-180 ${selectedSeason === 'invierno' ? 'animate-pulse' : ''}`} />
                         {tCommon('seasons.winter')}
                     </button>
                 </div>
@@ -107,7 +105,7 @@ const ExperienceSelector = ({ onExperienceSelect }) => {
                     </button>
 
                     {isExperienceDropdownOpen && (
-                        <div className="absolute top-full left-0 right-0 mt-2 bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl overflow-hidden z-50 animate-fade-in-up">
+                        <div className="absolute top-full left-0 right-0 mt-2 bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl z-50 animate-fade-in-up max-h-80 overflow-y-auto">
                             {filteredExperiences.length > 0 ? (
                                 filteredExperiences.map((experience) => (
                                     <button
@@ -142,16 +140,6 @@ const ExperienceSelector = ({ onExperienceSelect }) => {
                         </div>
                     )}
                 </div>
-
-                {/* Botón de reset */}
-                {step >= 2 && (
-                    <button
-                        onClick={handleReset}
-                        className="mt-4 text-white/70 hover:text-white text-sm underline transition-colors"
-                    >
-                        {t('selector.changeSeason')}
-                    </button>
-                )}
             </div>
 
             {/* Indicador de scroll cuando hay experiencia seleccionada */}
