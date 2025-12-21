@@ -64,7 +64,7 @@ const VideoHero = ({ onExperienceSelect }) => {
 
             {/* Contenido central */}
             <div className="container mx-auto px-4 sm:px-6 relative z-10 py-16 md:py-20">
-                <div className="text-center mb-8 md:mb-12">
+                <div className="text-center mb-8 md:mb-12 mt-10">
                     <span className="inline-block py-2 px-4 rounded-full bg-alpino/20 border border-bruma/30 text-bruma text-xs sm:text-sm font-semibold mb-4 md:mb-6 backdrop-blur-sm animate-fade-in">
                         {t('hero.badge')}
                     </span>

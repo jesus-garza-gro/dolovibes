@@ -20,9 +20,11 @@ const Footer = () => {
                 <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-12">
                     {/* Logo y descripción */}
                     <div className="lg:col-span-2">
-                        <h3 className="text-2xl font-bold mb-4">
-                            <span className="text-bruma">Dolo</span>Vibes
-                        </h3>
+                        <img
+                            src="/logo-dark.svg"
+                            alt="DoloVibes"
+                            className="h-20 w-auto brightness-0 invert"
+                        />
                         <p className="text-niebla leading-relaxed max-w-md mb-6">
                             {t('footer.description')}
                         </p>
