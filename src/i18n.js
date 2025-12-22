@@ -7,10 +7,11 @@ import homeES from './locales/es/home.json';
 import aboutES from './locales/es/about.json';
 import experiencesES from './locales/es/experiences.json';
 
-// Configuración para agregar nuevos idiomas en el futuro:
-// 1. Crear carpeta src/locales/{codigo_idioma}/
-// 2. Copiar y traducir los archivos JSON
-// 3. Importar y agregar al objeto resources abajo
+// Importar traducciones en inglés
+import commonEN from './locales/en/common.json';
+import homeEN from './locales/en/home.json';
+import aboutEN from './locales/en/about.json';
+import experiencesEN from './locales/en/experiences.json';
 
 i18n
     .use(initReactI18next)
@@ -22,13 +23,12 @@ i18n
                 about: aboutES,
                 experiences: experiencesES,
             },
-            // Ejemplo para agregar inglés en el futuro:
-            // en: {
-            //     common: commonEN,
-            //     home: homeEN,
-            //     about: aboutEN,
-            //     experiences: experiencesEN,
-            // }
+            en: {
+                common: commonEN,
+                home: homeEN,
+                about: aboutEN,
+                experiences: experiencesEN,
+            }
         },
         lng: 'es', // Idioma por defecto
         fallbackLng: 'es', // Idioma de respaldo
@@ -39,3 +39,4 @@ i18n
     });
 
 export default i18n;
+

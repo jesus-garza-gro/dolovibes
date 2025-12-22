@@ -26,6 +26,26 @@
         "days": "Días",
         "persons": "Pers."
     },
+    "recommendations": {
+        "basedOnSelection": "Basado en tu selección",
+        "title": "Nuestras Recomendaciones",
+        "subtitle": "Los mejores viajes de {{experience}} para ti",
+        "offer": "OFERTA",
+        "viewDetails": "Ver detalles"
+    },
+    "footer": {
+        "description": "Experiencias de montaña únicas en las Dolomitas italianas. Aventura, naturaleza y cultura en cada viaje.",
+        "experiences": "Experiencias",
+        "information": "Información",
+        "contact": "Contacto",
+        "bookingConditions": "Condiciones de Reserva",
+        "cancellationPolicy": "Política de Cancelación",
+        "contractInfo": "Información de Contrato",
+        "privacyPolicy": "Política de Privacidad",
+        "cookiePolicy": "Política de Cookies",
+        "copyrights": "Derechos de Autor",
+        "allRightsReserved": "Todos los derechos reservados."
+    },
     "quoteModal": {
         "title": "Solicita tu Cotización",
         "step": "Paso",
