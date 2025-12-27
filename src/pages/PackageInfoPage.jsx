@@ -147,12 +147,7 @@ const PackageInfoPage = ({ onOpenQuote }) => {
                                 <Clock className="w-4 h-4" />
                                 {pkg.duration}
                             </span>
-                            <span className={`flex items-center gap-2 px-4 py-2 rounded-full font-medium ${pkg.difficulty?.toLowerCase().includes('bajo') || pkg.difficulty?.toLowerCase().includes('fácil')
-                                ? 'bg-green-500/80 text-white'
-                                : pkg.difficulty?.toLowerCase().includes('intermedio') || pkg.difficulty?.toLowerCase().includes('moderado')
-                                    ? 'bg-amber-500/80 text-white'
-                                    : 'bg-red-500/80 text-white'
-                                }`}>
+                            <span className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full">
                                 {pkg.difficulty}
                             </span>
                             <span className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full">
@@ -160,7 +155,7 @@ const PackageInfoPage = ({ onOpenQuote }) => {
                                 {pkg.groupSize}
                             </span>
                             {pkg.guideType && (
-                                <span className="flex items-center gap-2 bg-pizarra/80 px-4 py-2 rounded-full font-medium text-white">
+                                <span className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full">
                                     {pkg.guideType}
                                 </span>
                             )}

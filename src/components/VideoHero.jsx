@@ -19,7 +19,7 @@ const VideoHero = ({ onExperienceSelect }) => {
 
     // Videos del hero - versión desktop (16:9) y móvil (9:16)
     const videoDesktop = "/videos/hero-video.mp4";
-    const videoMobile = "/videos/hero-video-mobile.mp4";
+    const videoMobile = "/videos/hero-video-mobile-trecime.mp4";
 
     // Fallback images
     const fallbackImage = "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=1920";
