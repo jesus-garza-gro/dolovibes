@@ -17,17 +17,17 @@ import experiencesEN from './locales/en/experiences.json';
 // ============================================
 // CONFIGURACIÓN DE AUTO-DETECCIÓN DE IDIOMA
 // ============================================
-// ESTADO: PREPARADO pero DESACTIVADO
+// ESTADO: ACTIVADO ✅
 // 
-// Para activar la detección automática:
-// 1. Cambiar LANGUAGE_DETECTION_ENABLED a true
-// 2. El idioma se detectará automáticamente del navegador
-// 3. Se guardará la preferencia del usuario en localStorage
+// El idioma se detecta automáticamente:
+// 1. Primero busca preferencia guardada en localStorage
+// 2. Después detecta idioma del navegador
+// 3. Como fallback usa español (es)
 //
-// COSTO ESTIMADO DE IMPLEMENTACIÓN: $1,500-2,500 MXN
+// IMPLEMENTADO: Junio 2025
 // ============================================
 
-const LANGUAGE_DETECTION_ENABLED = false;
+const LANGUAGE_DETECTION_ENABLED = true;
 
 // Configuración del detector de idioma
 const languageDetectorOptions = {

@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import './index.css'
 import './i18n' // Inicializar i18n
+import { CurrencyProvider } from './utils/currency'
 import App from './App.jsx'
 
 // Configurar React Query cliente
@@ -20,7 +21,9 @@ const queryClient = new QueryClient({
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <App />
+      <CurrencyProvider>
+        <App />
+      </CurrencyProvider>
     </QueryClientProvider>
   </StrictMode>,
 )

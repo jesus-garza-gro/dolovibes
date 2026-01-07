@@ -14,6 +14,7 @@ import {
     X
 } from 'lucide-react';
 import { usePackage } from '../services/hooks';
+import { useCurrencyContext, parsePrice } from '../utils/currency';
 import PackageQuoteModal from '../components/PackageQuoteModal';
 import PhotoGalleryModal from '../components/PhotoGalleryModal';
 import Footer from '../components/Footer';
@@ -25,6 +26,9 @@ const PackageInfoPage = ({ onOpenQuote }) => {
     
     // Usar hook de React Query para datos dinámicos
     const { data: pkg, isLoading, error } = usePackage(slug);
+    
+    // Contexto de moneda para conversión de precios
+    const { formatPrice, currency } = useCurrencyContext();
 
     // Scroll al inicio cuando carga la página
     useEffect(() => {
@@ -293,11 +297,11 @@ const PackageInfoPage = ({ onOpenQuote }) => {
                                 <div className="flex items-baseline gap-3">
                                     {pkg.originalPrice && (
                                         <span className="text-niebla line-through text-xl">
-                                            {pkg.originalPrice}
+                                            {formatPrice(parsePrice(pkg.originalPrice))}
                                         </span>
                                     )}
                                     <span className="text-4xl md:text-5xl font-bold text-pizarra">
-                                        {pkg.price}
+                                        {formatPrice(parsePrice(pkg.price))}
                                     </span>
                                 </div>
                             </div>
