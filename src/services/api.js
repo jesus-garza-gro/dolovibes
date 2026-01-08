@@ -47,7 +47,7 @@ export const getExperienceBySlug = async (slug, locale = 'es') => {
   const params = {
     locale,
     'filters[slug][$eq]': slug,
-    populate: 'deep',
+    populate: '*',
   };
   
   const response = await strapiClient.get('/experiences', { params });
@@ -68,7 +68,17 @@ export const getExperienceBySlug = async (slug, locale = 'es') => {
 export const getPackages = async (locale = 'es', filters = {}) => {
   const params = {
     locale,
-    populate: 'deep',
+    populate: {
+      thumbnail: true,
+      heroImage: true,
+      gallery: true,
+      itinerary: {
+        populate: ['image']
+      },
+      includes: true,
+      startDates: true,
+      experience: true,
+    },
     'pagination[pageSize]': 100,
   };
   
@@ -94,7 +104,17 @@ export const getPackageBySlug = async (slug, locale = 'es') => {
   const params = {
     locale,
     'filters[slug][$eq]': slug,
-    populate: 'deep',
+    populate: {
+      thumbnail: true,
+      heroImage: true,
+      gallery: true,
+      itinerary: {
+        populate: ['image']
+      },
+      includes: true,
+      startDates: true,
+      experience: true,
+    },
   };
   
   const response = await strapiClient.get('/packages', { params });
@@ -143,7 +163,13 @@ export const getHeroSection = async (locale = 'es') => {
 export const getAboutPage = async (locale = 'es') => {
   const params = {
     locale,
-    populate: 'deep',
+    populate: {
+      mainPhoto: true,
+      team: {
+        populate: ['photo']
+      },
+      values: true,
+    },
   };
   
   const response = await strapiClient.get('/about-page', { params });
