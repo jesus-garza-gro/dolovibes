@@ -35,6 +35,7 @@ export const BASE_CURRENCY = 'MXN';
 
 // Monedas soportadas con configuración completa
 export const SUPPORTED_CURRENCIES = {
+  // Moneda base
   MXN: { 
     symbol: '$', 
     name: 'Peso Mexicano', 
@@ -42,8 +43,9 @@ export const SUPPORTED_CURRENCIES = {
     locale: 'es-MX', 
     position: 'before',
     flag: '🇲🇽',
-    decimals: 0 // Sin decimales para MXN
+    decimals: 0
   },
+  // Norteamérica
   USD: { 
     symbol: '$', 
     name: 'US Dollar', 
@@ -53,11 +55,21 @@ export const SUPPORTED_CURRENCIES = {
     flag: '🇺🇸',
     decimals: 2
   },
+  CAD: { 
+    symbol: 'CA$', 
+    name: 'Canadian Dollar', 
+    nameShort: 'CAD',
+    locale: 'en-CA', 
+    position: 'before',
+    flag: '🇨🇦',
+    decimals: 2
+  },
+  // Europa
   EUR: { 
     symbol: '€', 
     name: 'Euro', 
     nameShort: 'EUR',
-    locale: 'es-ES', // Español para formato europeo
+    locale: 'es-ES',
     position: 'after',
     flag: '🇪🇺',
     decimals: 2
@@ -71,31 +83,146 @@ export const SUPPORTED_CURRENCIES = {
     flag: '🇬🇧',
     decimals: 2
   },
+  CHF: { 
+    symbol: 'CHF', 
+    name: 'Swiss Franc', 
+    nameShort: 'CHF',
+    locale: 'de-CH', 
+    position: 'before',
+    flag: '🇨🇭',
+    decimals: 2
+  },
+  // Latinoamérica
+  ARS: { 
+    symbol: 'AR$', 
+    name: 'Peso Argentino', 
+    nameShort: 'ARS',
+    locale: 'es-AR', 
+    position: 'before',
+    flag: '🇦🇷',
+    decimals: 0
+  },
+  COP: { 
+    symbol: 'CO$', 
+    name: 'Peso Colombiano', 
+    nameShort: 'COP',
+    locale: 'es-CO', 
+    position: 'before',
+    flag: '🇨🇴',
+    decimals: 0
+  },
+  CLP: { 
+    symbol: 'CL$', 
+    name: 'Peso Chileno', 
+    nameShort: 'CLP',
+    locale: 'es-CL', 
+    position: 'before',
+    flag: '🇨🇱',
+    decimals: 0
+  },
+  BRL: { 
+    symbol: 'R$', 
+    name: 'Real Brasileño', 
+    nameShort: 'BRL',
+    locale: 'pt-BR', 
+    position: 'before',
+    flag: '🇧🇷',
+    decimals: 2
+  },
+  PEN: { 
+    symbol: 'S/', 
+    name: 'Sol Peruano', 
+    nameShort: 'PEN',
+    locale: 'es-PE', 
+    position: 'before',
+    flag: '🇵🇪',
+    decimals: 2
+  },
+  // Asia/Oceanía
+  JPY: { 
+    symbol: '¥', 
+    name: 'Japanese Yen', 
+    nameShort: 'JPY',
+    locale: 'ja-JP', 
+    position: 'before',
+    flag: '🇯🇵',
+    decimals: 0
+  },
+  AUD: { 
+    symbol: 'A$', 
+    name: 'Australian Dollar', 
+    nameShort: 'AUD',
+    locale: 'en-AU', 
+    position: 'before',
+    flag: '🇦🇺',
+    decimals: 2
+  },
+  NZD: { 
+    symbol: 'NZ$', 
+    name: 'New Zealand Dollar', 
+    nameShort: 'NZD',
+    locale: 'en-NZ', 
+    position: 'before',
+    flag: '🇳🇿',
+    decimals: 2
+  },
 };
 
 // Mapeo de países a monedas (ISO 3166-1 alpha-2)
 export const COUNTRY_CURRENCY_MAP = {
   // Latinoamérica
   MX: 'MXN',
-  AR: 'USD', // Argentina usa USD para turismo
-  CO: 'USD',
-  CL: 'USD',
-  PE: 'USD',
-  BR: 'USD',
+  AR: 'ARS',
+  CO: 'COP',
+  CL: 'CLP',
+  PE: 'PEN',
+  BR: 'BRL',
+  VE: 'USD', // Venezuela usa USD
+  EC: 'USD', // Ecuador usa USD
+  UY: 'USD',
+  PY: 'USD',
+  BO: 'USD',
+  CR: 'USD',
+  PA: 'USD',
+  GT: 'USD',
+  HN: 'USD',
+  SV: 'USD',
+  NI: 'USD',
+  DO: 'USD',
+  CU: 'USD',
+  PR: 'USD',
   // Norteamérica
   US: 'USD',
-  CA: 'USD',
+  CA: 'CAD',
   // Europa - Zona Euro
   DE: 'EUR',
   FR: 'EUR',
-  IT: 'EUR', // Italia (Dolomitas)
+  IT: 'EUR',
   ES: 'EUR',
-  AT: 'EUR', // Austria (Dolomitas)
+  AT: 'EUR',
   NL: 'EUR',
   BE: 'EUR',
   PT: 'EUR',
+  IE: 'EUR',
+  FI: 'EUR',
+  GR: 'EUR',
+  LU: 'EUR',
+  SK: 'EUR',
+  SI: 'EUR',
+  EE: 'EUR',
+  LV: 'EUR',
+  LT: 'EUR',
+  MT: 'EUR',
+  CY: 'EUR',
   // Reino Unido
   GB: 'GBP',
+  // Suiza
+  CH: 'CHF',
+  LI: 'CHF',
+  // Asia/Oceanía
+  JP: 'JPY',
+  AU: 'AUD',
+  NZ: 'NZD',
   // Default para otros
   DEFAULT: 'USD',
 };
@@ -203,16 +330,49 @@ export const detectUserCurrency = async () => {
   // 3. Fallback por idioma del navegador
   const browserLang = (navigator.language || navigator.userLanguage || '').toLowerCase();
   
+  // México
   if (browserLang.startsWith('es-mx')) return 'MXN';
-  if (browserLang.startsWith('es')) return 'EUR'; // España y Latam en general
+  // Argentina
+  if (browserLang.startsWith('es-ar')) return 'ARS';
+  // Colombia
+  if (browserLang.startsWith('es-co')) return 'COP';
+  // Chile
+  if (browserLang.startsWith('es-cl')) return 'CLP';
+  // Perú
+  if (browserLang.startsWith('es-pe')) return 'PEN';
+  // España y otros hispanohablantes
+  if (browserLang.startsWith('es')) return 'EUR';
+  // Brasil
+  if (browserLang.startsWith('pt-br')) return 'BRL';
+  // Portugal
+  if (browserLang.startsWith('pt')) return 'EUR';
+  // Estados Unidos
   if (browserLang.startsWith('en-us')) return 'USD';
+  // Canadá inglés
+  if (browserLang.startsWith('en-ca')) return 'CAD';
+  // Reino Unido
   if (browserLang.startsWith('en-gb')) return 'GBP';
-  if (browserLang.startsWith('de') || browserLang.startsWith('fr') || browserLang.startsWith('it')) {
-    return 'EUR';
-  }
+  // Australia
+  if (browserLang.startsWith('en-au')) return 'AUD';
+  // Nueva Zelanda
+  if (browserLang.startsWith('en-nz')) return 'NZD';
+  // Otros en inglés
+  if (browserLang.startsWith('en')) return 'USD';
+  // Alemán de Suiza
+  if (browserLang.startsWith('de-ch')) return 'CHF';
+  // Alemán
+  if (browserLang.startsWith('de')) return 'EUR';
+  // Francés de Suiza
+  if (browserLang.startsWith('fr-ch')) return 'CHF';
+  // Francés
+  if (browserLang.startsWith('fr')) return 'EUR';
+  // Italiano
+  if (browserLang.startsWith('it')) return 'EUR';
+  // Japonés
+  if (browserLang.startsWith('ja')) return 'JPY';
 
   // 4. Default
-  return 'MXN';
+  return 'USD';
 };
 
 // ============================================
@@ -222,14 +382,28 @@ export const detectUserCurrency = async () => {
 /**
  * Tasas de fallback aproximadas (actualizadas manualmente)
  * Se usan cuando la API no está disponible
+ * Tasas aproximadas a enero 2026 (MXN como base, 1 MXN = X moneda)
  */
 const getFallbackRates = () => {
-  // Tasas aproximadas a enero 2026 (MXN como base)
   return {
     MXN: 1,
-    USD: 0.058, // 1 MXN ≈ 0.058 USD (17.2 MXN/USD)
-    EUR: 0.053, // 1 MXN ≈ 0.053 EUR
-    GBP: 0.045, // 1 MXN ≈ 0.045 GBP
+    // Norteamérica
+    USD: 0.058,    // 1 MXN ≈ 0.058 USD (17.2 MXN/USD)
+    CAD: 0.079,    // 1 MXN ≈ 0.079 CAD
+    // Europa
+    EUR: 0.053,    // 1 MXN ≈ 0.053 EUR
+    GBP: 0.045,    // 1 MXN ≈ 0.045 GBP
+    CHF: 0.051,    // 1 MXN ≈ 0.051 CHF
+    // Latinoamérica
+    ARS: 52.9,     // 1 MXN ≈ 52.9 ARS
+    COP: 230,      // 1 MXN ≈ 230 COP
+    CLP: 52,       // 1 MXN ≈ 52 CLP
+    BRL: 0.29,     // 1 MXN ≈ 0.29 BRL
+    PEN: 0.22,     // 1 MXN ≈ 0.22 PEN
+    // Asia/Oceanía
+    JPY: 8.7,      // 1 MXN ≈ 8.7 JPY
+    AUD: 0.089,    // 1 MXN ≈ 0.089 AUD
+    NZD: 0.097,    // 1 MXN ≈ 0.097 NZD
   };
 };
 

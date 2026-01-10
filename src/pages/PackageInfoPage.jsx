@@ -31,11 +31,6 @@ const PackageInfoPage = ({ onOpenQuote }) => {
     // Contexto de moneda para conversión de precios
     const { formatPrice, currency } = useCurrencyContext();
 
-    // Scroll al inicio cuando carga la página
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, [slug]);
-
     // Estado para el carrusel de itinerario
     const [currentDay, setCurrentDay] = useState(0);
 
@@ -53,6 +48,44 @@ const PackageInfoPage = ({ onOpenQuote }) => {
 
     // Referencia para la sección de itinerario (para swipe/wheel)
     const itineraryRef = React.useRef(null);
+
+    // Scroll al inicio cuando carga la página
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [slug]);
+
+    // Soporte para swipe/wheel en trackpad - DEBE estar antes de early returns
+    useEffect(() => {
+        const section = itineraryRef.current;
+        if (!section || !pkg) return;
+
+        let lastScrollTime = 0;
+        const scrollThreshold = 50;
+        const scrollDebounce = 500;
+
+        const handleWheel = (e) => {
+            const deltaX = Math.abs(e.deltaX);
+            const deltaY = Math.abs(e.deltaY);
+            const now = Date.now();
+
+            if (now - lastScrollTime < scrollDebounce) return;
+
+            const delta = deltaX > deltaY ? e.deltaX : e.deltaY;
+
+            if (Math.abs(delta) > scrollThreshold && pkg.itinerary) {
+                if (delta > 0 && currentDay < pkg.itinerary.length - 1) {
+                    setCurrentDay(prev => prev + 1);
+                    lastScrollTime = now;
+                } else if (delta < 0 && currentDay > 0) {
+                    setCurrentDay(prev => prev - 1);
+                    lastScrollTime = now;
+                }
+            }
+        };
+
+        section.addEventListener('wheel', handleWheel, { passive: true });
+        return () => section.removeEventListener('wheel', handleWheel);
+    }, [currentDay, pkg]);
 
     // Estado de carga
     if (isLoading) {
@@ -92,48 +125,11 @@ const PackageInfoPage = ({ onOpenQuote }) => {
         }
     };
 
-    // Soporte para swipe/wheel en trackpad
-    React.useEffect(() => {
-        const section = itineraryRef.current;
-        if (!section || !pkg) return;
-
-        let isScrolling = false;
-        let lastScrollTime = 0;
-        const scrollThreshold = 50;
-        const scrollDebounce = 500; // ms entre cambios de día
-
-        const handleWheel = (e) => {
-            // Solo procesar scroll horizontal o vertical significativo
-            const deltaX = Math.abs(e.deltaX);
-            const deltaY = Math.abs(e.deltaY);
-            const now = Date.now();
-
-            // Debounce para evitar cambios muy rápidos
-            if (now - lastScrollTime < scrollDebounce) return;
-
-            // Usar deltaX para scroll horizontal (trackpad) o deltaY para scroll vertical
-            const delta = deltaX > deltaY ? e.deltaX : e.deltaY;
-
-            if (Math.abs(delta) > scrollThreshold) {
-                if (delta > 0 && currentDay < pkg.itinerary.length - 1) {
-                    setCurrentDay(prev => prev + 1);
-                    lastScrollTime = now;
-                } else if (delta < 0 && currentDay > 0) {
-                    setCurrentDay(prev => prev - 1);
-                    lastScrollTime = now;
-                }
-            }
-        };
-
-        section.addEventListener('wheel', handleWheel, { passive: true });
-        return () => section.removeEventListener('wheel', handleWheel);
-    }, [currentDay, pkg]);
-
     const toggleInclude = (index) => {
         setExpandedInclude(expandedInclude === index ? null : index);
     };
 
-    const currentItinerary = pkg.itinerary[currentDay];
+    const currentItinerary = pkg.itinerary?.[currentDay];
 
     return (
         <div className="min-h-screen bg-white">

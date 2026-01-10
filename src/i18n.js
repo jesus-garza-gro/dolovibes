@@ -14,6 +14,30 @@ import homeEN from './locales/en/home.json';
 import aboutEN from './locales/en/about.json';
 import experiencesEN from './locales/en/experiences.json';
 
+// Importar traducciones en italiano
+import commonIT from './locales/it/common.json';
+import homeIT from './locales/it/home.json';
+import aboutIT from './locales/it/about.json';
+import experiencesIT from './locales/it/experiences.json';
+
+// Importar traducciones en portugués
+import commonPT from './locales/pt/common.json';
+import homePT from './locales/pt/home.json';
+import aboutPT from './locales/pt/about.json';
+import experiencesPT from './locales/pt/experiences.json';
+
+// Importar traducciones en francés
+import commonFR from './locales/fr/common.json';
+import homeFR from './locales/fr/home.json';
+import aboutFR from './locales/fr/about.json';
+import experiencesFR from './locales/fr/experiences.json';
+
+// Importar traducciones en alemán
+import commonDE from './locales/de/common.json';
+import homeDE from './locales/de/home.json';
+import aboutDE from './locales/de/about.json';
+import experiencesDE from './locales/de/experiences.json';
+
 // ============================================
 // CONFIGURACIÓN DE AUTO-DETECCIÓN DE IDIOMA
 // ============================================
@@ -69,12 +93,36 @@ i18nInstance.init({
       home: homeEN,
       about: aboutEN,
       experiences: experiencesEN,
+    },
+    it: {
+      common: commonIT,
+      home: homeIT,
+      about: aboutIT,
+      experiences: experiencesIT,
+    },
+    pt: {
+      common: commonPT,
+      home: homePT,
+      about: aboutPT,
+      experiences: experiencesPT,
+    },
+    fr: {
+      common: commonFR,
+      home: homeFR,
+      about: aboutFR,
+      experiences: experiencesFR,
+    },
+    de: {
+      common: commonDE,
+      home: homeDE,
+      about: aboutDE,
+      experiences: experiencesDE,
     }
   },
   // Si la detección está deshabilitada, usar español por defecto
   lng: LANGUAGE_DETECTION_ENABLED ? undefined : 'es',
-  fallbackLng: 'es', // Idioma de respaldo
-  supportedLngs: ['es', 'en'], // Idiomas soportados
+  fallbackLng: 'en', // Idioma de respaldo (inglés tiene contenido más completo)
+  supportedLngs: ['es', 'en', 'it', 'pt', 'fr', 'de'], // Idiomas soportados
   defaultNS: 'common', // Namespace por defecto
   
   // Configuración del detector (solo aplica si está habilitado)
@@ -100,10 +148,10 @@ export const getCurrentLanguage = () => i18nInstance.language;
 
 /**
  * Cambia el idioma manualmente
- * @param {string} lang - 'es' o 'en'
+ * @param {string} lang - 'es', 'en', 'it', 'pt', 'fr', 'de'
  */
 export const changeLanguage = (lang) => {
-  if (['es', 'en'].includes(lang)) {
+  if (['es', 'en', 'it', 'pt', 'fr', 'de'].includes(lang)) {
     i18nInstance.changeLanguage(lang);
     localStorage.setItem('preferredLanguage', lang);
   }
@@ -122,30 +170,59 @@ export const getSavedLanguage = () => {
  * Útil cuando se detecta el país por IP
  */
 export const COUNTRY_LANGUAGE_MAP = {
+  // Español
   MX: 'es',
   ES: 'es',
   AR: 'es',
   CO: 'es',
   PE: 'es',
   CL: 'es',
+  EC: 'es',
+  VE: 'es',
+  UY: 'es',
+  PY: 'es',
+  BO: 'es',
+  CR: 'es',
+  PA: 'es',
+  GT: 'es',
+  HN: 'es',
+  SV: 'es',
+  NI: 'es',
+  DO: 'es',
+  CU: 'es',
+  PR: 'es',
+  // Inglés
   US: 'en',
   GB: 'en',
   CA: 'en',
   AU: 'en',
-  // Italia y países de los Dolomitas -> español por defecto del negocio
-  IT: 'es',
-  AT: 'es',
-  DE: 'en',
-  FR: 'en',
+  NZ: 'en',
+  IE: 'en',
+  // Italiano
+  IT: 'it',
+  SM: 'it',
+  // Portugués
+  BR: 'pt',
+  PT: 'pt',
+  // Francés
+  FR: 'fr',
+  BE: 'fr',
+  CH: 'fr', // Suiza tiene varios idiomas, usamos francés
+  LU: 'fr',
+  MC: 'fr',
+  // Alemán
+  DE: 'de',
+  AT: 'de',
+  LI: 'de',
 };
 
 /**
  * Detecta el idioma óptimo basado en código de país
  * @param {string} countryCode - Código ISO del país (MX, US, etc.)
- * @returns {string} Idioma ('es' o 'en')
+ * @returns {string} Idioma ('es', 'en', 'it', 'pt', 'fr', 'de')
  */
 export const detectLanguageByCountry = (countryCode) => {
-  return COUNTRY_LANGUAGE_MAP[countryCode?.toUpperCase()] || 'es';
+  return COUNTRY_LANGUAGE_MAP[countryCode?.toUpperCase()] || 'en';
 };
 
 export default i18nInstance;

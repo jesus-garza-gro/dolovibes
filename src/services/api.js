@@ -71,13 +71,16 @@ export const getPackages = async (locale = 'es', filters = {}) => {
     populate: {
       thumbnail: true,
       heroImage: true,
-      gallery: true,
+      gallery: {
+        populate: ['image']
+      },
       itinerary: {
         populate: ['image']
       },
       includes: true,
       startDates: true,
       experience: true,
+      locationInfo: true,
     },
     'pagination[pageSize]': 100,
   };
@@ -107,13 +110,16 @@ export const getPackageBySlug = async (slug, locale = 'es') => {
     populate: {
       thumbnail: true,
       heroImage: true,
-      gallery: true,
+      gallery: {
+        populate: ['image']
+      },
       itinerary: {
         populate: ['image']
       },
       includes: true,
       startDates: true,
       experience: true,
+      locationInfo: true,
     },
   };
   
@@ -296,7 +302,12 @@ const transformPackages = (data) => {
     rating: item.rating,
     image: getStrapiMediaUrl(item.thumbnail?.url),
     heroImage: getStrapiMediaUrl(item.heroImage?.url),
-    gallery: item.gallery?.map(img => getStrapiMediaUrl(img.url)) || [],
+    // Gallery ahora es un componente con imagen y caption
+    gallery: item.gallery?.map(g => ({
+      url: getStrapiMediaUrl(g.image?.url),
+      caption: g.caption || '',
+      alt: g.caption || item.title,
+    })) || [],
     tags: item.tags?.map(t => t.name) || [],
     hasDiscount: item.hasDiscount,
     season: item.season === 'summer' ? 'verano' : 'invierno',
@@ -317,6 +328,15 @@ const transformPackages = (data) => {
     guideType: item.guideType,
     availableDates: item.availableDates,
     startDates: item.startDates?.map(sd => sd.displayText || sd.date) || [],
+    // Información de ubicación
+    locationInfo: item.locationInfo ? {
+      howToGetThere: item.locationInfo.howToGetThere,
+      latitude: item.locationInfo.latitude,
+      longitude: item.locationInfo.longitude,
+      googleMapsUrl: item.locationInfo.googleMapsUrl,
+      nearestAirport: item.locationInfo.nearestAirport,
+      nearestCity: item.locationInfo.nearestCity,
+    } : null,
   }));
 };
 
