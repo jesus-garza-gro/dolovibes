@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { CheckCircle, Send, X } from 'lucide-react';
 
 const PackageQuoteModal = ({ isOpen, onClose, packageTitle }) => {
+    const { t } = useTranslation('quoteForm');
     const [formData, setFormData] = useState({
         nombre: '',
         apellido: '',
@@ -87,10 +89,10 @@ const PackageQuoteModal = ({ isOpen, onClose, packageTitle }) => {
                             <CheckCircle className="w-10 h-10 text-white" />
                         </div>
                         <h3 className="text-2xl md:text-3xl font-bold mb-4">
-                            ¡Solicitud Enviada!
+                            {t('success.title')}
                         </h3>
                         <p className="text-white/80 text-lg">
-                            Nos pondremos en contacto contigo muy pronto para planificar tu viaje.
+                            {t('success.message')}
                         </p>
                     </div>
                 ) : (
@@ -101,10 +103,10 @@ const PackageQuoteModal = ({ isOpen, onClose, packageTitle }) => {
                                 {packageTitle}
                             </h3>
                             <p className="text-white text-base font-medium mb-1">
-                                ¿Estás listo para el viaje más espectacular de tu vida?
+                                {t('subtitle')}
                             </p>
                             <p className="text-white/60 text-sm">
-                                Completa la información
+                                {t('completeInfo')}
                             </p>
                         </div>
 
@@ -117,7 +119,7 @@ const PackageQuoteModal = ({ isOpen, onClose, packageTitle }) => {
                                         <span className="text-red-500 font-bold">!</span>
                                     </div>
                                     <p className="text-red-700 text-sm font-medium">
-                                        Por favor completa todos los campos obligatorios marcados con *
+                                        {t('validation.requiredFields')}
                                     </p>
                                 </div>
                             )}
@@ -126,7 +128,7 @@ const PackageQuoteModal = ({ isOpen, onClose, packageTitle }) => {
                                 <div className="grid md:grid-cols-2 gap-4">
                                     <div>
                                         <label className="block text-sm font-medium text-pizarra mb-1.5">
-                                            Nombre *
+                                            {t('form.firstName')} *
                                         </label>
                                         <input
                                             type="text"
@@ -135,12 +137,12 @@ const PackageQuoteModal = ({ isOpen, onClose, packageTitle }) => {
                                             value={formData.nombre}
                                             onChange={handleChange}
                                             className="w-full px-4 py-2.5 border border-niebla rounded-xl focus:ring-2 focus:ring-pizarra focus:border-pizarra transition-all text-sm"
-                                            placeholder="Tu nombre"
+                                            placeholder={t('placeholders.firstName')}
                                         />
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium text-pizarra mb-1.5">
-                                            Apellido *
+                                            {t('form.lastName')} *
                                         </label>
                                         <input
                                             type="text"
@@ -149,7 +151,7 @@ const PackageQuoteModal = ({ isOpen, onClose, packageTitle }) => {
                                             value={formData.apellido}
                                             onChange={handleChange}
                                             className="w-full px-4 py-2.5 border border-niebla rounded-xl focus:ring-2 focus:ring-pizarra focus:border-pizarra transition-all text-sm"
-                                            placeholder="Tu apellido"
+                                            placeholder={t('placeholders.lastName')}
                                         />
                                     </div>
                                 </div>
@@ -158,7 +160,7 @@ const PackageQuoteModal = ({ isOpen, onClose, packageTitle }) => {
                                 <div className="grid md:grid-cols-3 gap-4">
                                     <div>
                                         <label className="block text-sm font-medium text-pizarra mb-1.5">
-                                            Ciudad *
+                                            {t('form.city')} *
                                         </label>
                                         <input
                                             type="text"
@@ -167,12 +169,12 @@ const PackageQuoteModal = ({ isOpen, onClose, packageTitle }) => {
                                             value={formData.ciudad}
                                             onChange={handleChange}
                                             className="w-full px-4 py-2.5 border border-niebla rounded-xl focus:ring-2 focus:ring-pizarra focus:border-pizarra transition-all text-sm"
-                                            placeholder="Ciudad"
+                                            placeholder={t('placeholders.city')}
                                         />
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium text-pizarra mb-1.5">
-                                            Estado *
+                                            {t('form.state')} *
                                         </label>
                                         <input
                                             type="text"
@@ -181,12 +183,12 @@ const PackageQuoteModal = ({ isOpen, onClose, packageTitle }) => {
                                             value={formData.estado}
                                             onChange={handleChange}
                                             className="w-full px-4 py-2.5 border border-niebla rounded-xl focus:ring-2 focus:ring-pizarra focus:border-pizarra transition-all text-sm"
-                                            placeholder="Estado"
+                                            placeholder={t('placeholders.state')}
                                         />
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium text-pizarra mb-1.5">
-                                            País *
+                                            {t('form.country')} *
                                         </label>
                                         <input
                                             type="text"
@@ -195,7 +197,7 @@ const PackageQuoteModal = ({ isOpen, onClose, packageTitle }) => {
                                             value={formData.pais}
                                             onChange={handleChange}
                                             className="w-full px-4 py-2.5 border border-niebla rounded-xl focus:ring-2 focus:ring-pizarra focus:border-pizarra transition-all text-sm"
-                                            placeholder="País"
+                                            placeholder={t('placeholders.country')}
                                         />
                                     </div>
                                 </div>
@@ -204,7 +206,7 @@ const PackageQuoteModal = ({ isOpen, onClose, packageTitle }) => {
                                 <div className="grid md:grid-cols-2 gap-4">
                                     <div>
                                         <label className="block text-sm font-medium text-pizarra mb-1.5">
-                                            Email *
+                                            {t('form.email')} *
                                         </label>
                                         <input
                                             type="email"
@@ -213,12 +215,12 @@ const PackageQuoteModal = ({ isOpen, onClose, packageTitle }) => {
                                             value={formData.email}
                                             onChange={handleChange}
                                             className="w-full px-4 py-2.5 border border-niebla rounded-xl focus:ring-2 focus:ring-pizarra focus:border-pizarra transition-all text-sm"
-                                            placeholder="tucorreo@email.com"
+                                            placeholder={t('placeholders.email')}
                                         />
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium text-pizarra mb-1.5">
-                                            Teléfono *
+                                            {t('form.phone')} *
                                         </label>
                                         <input
                                             type="tel"
@@ -227,7 +229,7 @@ const PackageQuoteModal = ({ isOpen, onClose, packageTitle }) => {
                                             value={formData.telefono}
                                             onChange={handleChange}
                                             className="w-full px-4 py-2.5 border border-niebla rounded-xl focus:ring-2 focus:ring-pizarra focus:border-pizarra transition-all text-sm"
-                                            placeholder="+52 123 456 7890"
+                                            placeholder={t('placeholders.phone')}
                                         />
                                     </div>
                                 </div>
@@ -235,7 +237,7 @@ const PackageQuoteModal = ({ isOpen, onClose, packageTitle }) => {
                                 {/* Cómo te gustaría ser contactado */}
                                 <div>
                                     <label className="block text-sm font-medium text-pizarra mb-1.5">
-                                        ¿Cómo te gustaría ser contactado? *
+                                        {t('form.contactMethod')} *
                                     </label>
                                     <select
                                         name="contacto"
@@ -243,9 +245,9 @@ const PackageQuoteModal = ({ isOpen, onClose, packageTitle }) => {
                                         onChange={handleChange}
                                         className="w-full px-4 py-2.5 border border-niebla rounded-xl focus:ring-2 focus:ring-pizarra focus:border-pizarra transition-all bg-white text-sm"
                                     >
-                                        <option value="whatsapp">WhatsApp</option>
-                                        <option value="telefono">Llamada telefónica</option>
-                                        <option value="correo">Correo electrónico</option>
+                                        <option value="whatsapp">{t('contactOptions.whatsapp')}</option>
+                                        <option value="telefono">{t('contactOptions.phone')}</option>
+                                        <option value="correo">{t('contactOptions.email')}</option>
                                     </select>
                                 </div>
 
@@ -253,7 +255,7 @@ const PackageQuoteModal = ({ isOpen, onClose, packageTitle }) => {
                                 <div className="grid md:grid-cols-2 gap-4">
                                     <div>
                                         <label className="block text-sm font-medium text-pizarra mb-1.5">
-                                            Mes del viaje *
+                                            {t('form.travelMonth')} *
                                         </label>
                                         <input
                                             type="month"
@@ -266,7 +268,7 @@ const PackageQuoteModal = ({ isOpen, onClose, packageTitle }) => {
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium text-pizarra mb-1.5">
-                                            Número de pasajeros *
+                                            {t('form.passengers')} *
                                         </label>
                                         <select
                                             name="pasajeros"
@@ -275,7 +277,7 @@ const PackageQuoteModal = ({ isOpen, onClose, packageTitle }) => {
                                             className="w-full px-4 py-2.5 border border-niebla rounded-xl focus:ring-2 focus:ring-pizarra focus:border-pizarra transition-all bg-white text-sm"
                                         >
                                             {[1, 2, 3, 4, 5, 6, 7, 8, '9+'].map(n => (
-                                                <option key={n} value={n}>{n} {n === 1 ? 'persona' : 'personas'}</option>
+                                                <option key={n} value={n}>{n}</option>
                                             ))}
                                         </select>
                                     </div>
@@ -284,7 +286,7 @@ const PackageQuoteModal = ({ isOpen, onClose, packageTitle }) => {
                                 {/* Tipo de viaje */}
                                 <div>
                                     <label className="block text-sm font-medium text-pizarra mb-1.5">
-                                        Tipo de viaje *
+                                        {t('form.tripType')} *
                                     </label>
                                     <div className="grid grid-cols-2 gap-3">
                                         <button
@@ -295,8 +297,8 @@ const PackageQuoteModal = ({ isOpen, onClose, packageTitle }) => {
                                                 : 'border-pizarra hover:border-bruma text-pizarra'
                                                 }`}
                                         >
-                                            <span className="font-semibold block text-sm">Guiado</span>
-                                            <span className="text-xs opacity-70">Con guía experto</span>
+                                            <span className="font-semibold block text-sm">{t('tripTypes.guided')}</span>
+                                            <span className="text-xs opacity-70">{t('tripTypes.guidedDesc')}</span>
                                         </button>
                                         <button
                                             type="button"
@@ -306,8 +308,8 @@ const PackageQuoteModal = ({ isOpen, onClose, packageTitle }) => {
                                                 : 'border-pizarra hover:border-bruma text-pizarra'
                                                 }`}
                                         >
-                                            <span className="font-semibold block text-sm">Autoguiado</span>
-                                            <span className="text-xs opacity-70">Por tu cuenta</span>
+                                            <span className="font-semibold block text-sm">{t('tripTypes.selfGuided')}</span>
+                                            <span className="text-xs opacity-70">{t('tripTypes.selfGuidedDesc')}</span>
                                         </button>
                                     </div>
                                 </div>
@@ -315,7 +317,7 @@ const PackageQuoteModal = ({ isOpen, onClose, packageTitle }) => {
                                 {/* Servicios adicionales */}
                                 <div>
                                     <label className="block text-sm font-medium text-pizarra mb-1.5">
-                                        Servicios adicionales
+                                        {t('form.additionalServices')}
                                     </label>
                                     <textarea
                                         name="serviciosAdicionales"
@@ -323,7 +325,7 @@ const PackageQuoteModal = ({ isOpen, onClose, packageTitle }) => {
                                         onChange={handleChange}
                                         rows={3}
                                         className="w-full px-4 py-2.5 border border-niebla rounded-xl focus:ring-2 focus:ring-pizarra focus:border-pizarra transition-all resize-none text-sm"
-                                        placeholder="Carpool, cena especial, pick up en aeropuerto..."
+                                        placeholder={t('form.additionalServicesPlaceholder')}
                                     />
                                 </div>
 
@@ -336,19 +338,15 @@ const PackageQuoteModal = ({ isOpen, onClose, packageTitle }) => {
                                     {isSubmitting ? (
                                         <>
                                             <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                                            Enviando...
+                                            {t('buttons.sending')}
                                         </>
                                     ) : (
                                         <>
                                             <Send className="w-5 h-5" />
-                                            Solicitar Cotización
+                                            {t('buttons.submit')}
                                         </>
                                     )}
                                 </button>
-
-                                <p className="text-center text-niebla text-xs">
-                                    Te responderemos en menos de 24 horas
-                                </p>
                             </form>
                         </div>
                     </>

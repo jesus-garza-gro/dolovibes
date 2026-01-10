@@ -19,12 +19,17 @@
         "submit": "Submit Request",
         "close": "Close",
         "goBack": "Go Back",
-        "backToHome": "Back to Home"
+        "backToHome": "Back to Home",
+        "quoteCustomTrip": "Quote custom trip"
     },
     "labels": {
         "perPerson": "per person",
         "days": "Days",
         "persons": "Pers."
+    },
+    "experiences": {
+        "notFound": "Experience not found",
+        "noPackages": "No packages available for this experience yet."
     },
     "recommendations": {
         "basedOnSelection": "Based on your selection",

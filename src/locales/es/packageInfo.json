@@ -1,0 +1,20 @@
+{
+    "dayOf": "Día {{current}} de {{total}}",
+    "pricePerPerson": "Precio por persona",
+    "additionalPhotos": "Fotos adicionales",
+    "howToGetHere": "Cómo llegar",
+    "mapComingSoon": "Mapa próximamente",
+    "notSureLevel": "¿No estás seguro de tu nivel de hiking? Haz nuestra evaluación",
+    "packageNotFound": "Paquete no encontrado",
+    "packageNotFoundDesc": "El paquete que buscas no existe o fue eliminado.",
+    "yourAdventure": "Tu aventura día a día",
+    "includes": "Incluido en el costo",
+    "notIncludes": "No incluido",
+    "quote": "Cotizar",
+    "viewPackages": "Ver paquetes",
+    "difficulty": {
+        "easy": "Fácil",
+        "intermediate": "Intermedio",
+        "advanced": "Avanzado"
+    }
+}

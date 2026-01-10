@@ -91,14 +91,14 @@ const Footer = () => {
                         <h4 className="font-semibold text-lg mb-4">{t('footer.information')}</h4>
                         <ul className="space-y-3">
                             <li>
-                                <a href="#" className="text-niebla hover:text-bruma transition-colors">
+                                <Link to="/terminos" className="text-niebla hover:text-bruma transition-colors">
                                     {t('footer.bookingConditions')}
-                                </a>
+                                </Link>
                             </li>
                             <li>
-                                <a href="#" className="text-niebla hover:text-bruma transition-colors">
+                                <Link to="/cancelaciones" className="text-niebla hover:text-bruma transition-colors">
                                     {t('footer.cancellationPolicy')}
-                                </a>
+                                </Link>
                             </li>
                             <li>
                                 <a href="#" className="text-niebla hover:text-bruma transition-colors">
@@ -106,14 +106,14 @@ const Footer = () => {
                                 </a>
                             </li>
                             <li>
-                                <a href="#" className="text-niebla hover:text-bruma transition-colors">
+                                <Link to="/privacidad" className="text-niebla hover:text-bruma transition-colors">
                                     {t('footer.privacyPolicy')}
-                                </a>
+                                </Link>
                             </li>
                             <li>
-                                <a href="#" className="text-niebla hover:text-bruma transition-colors">
+                                <Link to="/cookies" className="text-niebla hover:text-bruma transition-colors">
                                     {t('footer.cookiePolicy')}
-                                </a>
+                                </Link>
                             </li>
                             <li>
                                 <a href="#" className="text-niebla hover:text-bruma transition-colors">
