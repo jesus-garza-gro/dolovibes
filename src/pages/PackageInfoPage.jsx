@@ -18,10 +18,12 @@ import { usePackage } from '../services/hooks';
 import { useCurrencyContext, parsePrice } from '../utils/currency';
 import PackageQuoteModal from '../components/PackageQuoteModal';
 import PhotoGalleryModal from '../components/PhotoGalleryModal';
+import HikingLevelModal from '../components/HikingLevelModal';
 import Footer from '../components/Footer';
 
 const PackageInfoPage = ({ onOpenQuote }) => {
     const { t: tCommon } = useTranslation('common');
+    const { t: tPackage } = useTranslation('packageInfo');
     const { slug } = useParams();
     const navigate = useNavigate();
     
@@ -45,6 +47,9 @@ const PackageInfoPage = ({ onOpenQuote }) => {
 
     // Estado para el modal de mapa
     const [isMapModalOpen, setIsMapModalOpen] = useState(false);
+
+    // Estado para el modal de evaluación de hiking
+    const [isHikingLevelModalOpen, setIsHikingLevelModalOpen] = useState(false);
 
     // Referencia para la sección de itinerario (para swipe/wheel)
     const itineraryRef = React.useRef(null);
@@ -103,12 +108,12 @@ const PackageInfoPage = ({ onOpenQuote }) => {
         return (
             <div className="min-h-screen flex items-center justify-center bg-nieve">
                 <div className="text-center">
-                    <h1 className="text-2xl font-bold text-grafito mb-4">Paquete no encontrado</h1>
+                    <h1 className="text-2xl font-bold text-grafito mb-4">{tPackage('packageNotFound')}</h1>
                     <button
                         onClick={() => navigate('/')}
                         className="bg-pizarra text-white px-6 py-3 rounded-full font-semibold hover:bg-pizarra transition-colors"
                     >
-                        Volver al inicio
+                        {tCommon('buttons.backToHome')}
                     </button>
                 </div>
             </div>
@@ -217,7 +222,7 @@ const PackageInfoPage = ({ onOpenQuote }) => {
                                     <span className="text-base font-bold text-white">{pkg.itinerary[currentDay].day}</span>
                                 </div>
                                 <span className="text-pizarra font-semibold text-sm">
-                                    Día {pkg.itinerary[currentDay].day} de {pkg.itinerary.length}
+                                    {tPackage('dayOf', { current: pkg.itinerary[currentDay].day, total: pkg.itinerary.length })}
                                 </span>
                             </div>
 
@@ -290,7 +295,7 @@ const PackageInfoPage = ({ onOpenQuote }) => {
                             {/* Precio destacado */}
                             <div className="mb-8">
                                 <p className="text-niebla text-sm uppercase tracking-wider mb-1">
-                                    Precio por persona
+                                    {tPackage('pricePerPerson')}
                                 </p>
                                 <div className="flex items-baseline gap-3">
                                     {pkg.originalPrice && (
@@ -305,9 +310,20 @@ const PackageInfoPage = ({ onOpenQuote }) => {
                             </div>
 
                             {/* Descripción breve */}
-                            <p className="text-lg text-pizarra leading-relaxed mb-8">
+                            <p className="text-lg text-pizarra leading-relaxed mb-4">
                                 {pkg.description}
                             </p>
+
+                            {/* Enlace para evaluación de nivel */}
+                            <button
+                                onClick={() => setIsHikingLevelModalOpen(true)}
+                                className="flex items-center gap-2 text-pizarra hover:text-pizarra/70 text-sm font-medium mb-8 group transition-colors"
+                            >
+                                <span className="underline underline-offset-2 group-hover:no-underline">
+                                    {tPackage('notSureLevel')}
+                                </span>
+                                <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                            </button>
 
                             {/* Incluye - Desplegables */}
                             <div className="space-y-3 mb-6">
@@ -356,7 +372,7 @@ const PackageInfoPage = ({ onOpenQuote }) => {
                                         <div className="w-8 h-8 bg-pizarra rounded-full flex items-center justify-center">
                                             <span className="text-white text-sm">📷</span>
                                         </div>
-                                        <span className="font-semibold text-grafito">Fotos adicionales</span>
+                                        <span className="font-semibold text-grafito">{tPackage('additionalPhotos')}</span>
                                     </div>
                                     <ChevronRight className="w-5 h-5 text-niebla" />
                                 </button>
@@ -370,7 +386,7 @@ const PackageInfoPage = ({ onOpenQuote }) => {
                                         <div className="w-8 h-8 bg-pizarra rounded-full flex items-center justify-center">
                                             <MapPin className="w-4 h-4 text-white" />
                                         </div>
-                                        <span className="font-semibold text-grafito">Cómo llegar</span>
+                                        <span className="font-semibold text-grafito">{tPackage('howToGetHere')}</span>
                                     </div>
                                     <ChevronRight className="w-5 h-5 text-niebla" />
                                 </button>
@@ -394,7 +410,7 @@ const PackageInfoPage = ({ onOpenQuote }) => {
                                         onClick={() => setIsQuoteModalOpen(true)}
                                         className="w-full bg-pizarra hover:bg-pizarra/90 text-white py-4 rounded-xl font-bold text-lg transition-all transform hover:scale-[1.02] shadow-lg shadow-pizarra/30"
                                     >
-                                        Cotizar
+                                        {tPackage('quote')}
                                     </button>
                                     <p className="text-center text-white/70 text-sm mt-3">
                                         Te responderemos en menos de 24 horas
@@ -421,7 +437,7 @@ const PackageInfoPage = ({ onOpenQuote }) => {
                 <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4" onClick={() => setIsMapModalOpen(false)}>
                     <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden" onClick={(e) => e.stopPropagation()}>
                         <div className="flex items-center justify-between p-6 border-b border-niebla">
-                            <h3 className="text-xl font-bold text-grafito">Cómo llegar</h3>
+                            <h3 className="text-xl font-bold text-grafito">{tPackage('howToGetHere')}</h3>
                             <button onClick={() => setIsMapModalOpen(false)} className="p-2 hover:bg-nieve rounded-full">
                                 <X className="w-5 h-5 text-pizarra" />
                             </button>
@@ -430,7 +446,7 @@ const PackageInfoPage = ({ onOpenQuote }) => {
                             <div className="bg-nieve rounded-xl h-80 flex items-center justify-center">
                                 <div className="text-center">
                                     <MapPin className="w-12 h-12 text-niebla mx-auto mb-4" />
-                                    <p className="text-pizarra">Mapa próximamente</p>
+                                    <p className="text-pizarra">{tPackage('mapComingSoon')}</p>
                                     <p className="text-niebla text-sm mt-2">{pkg.location}</p>
                                 </div>
                             </div>
@@ -444,6 +460,12 @@ const PackageInfoPage = ({ onOpenQuote }) => {
                 isOpen={isQuoteModalOpen}
                 onClose={() => setIsQuoteModalOpen(false)}
                 packageTitle={pkg.title}
+            />
+
+            {/* Modal de Evaluación de Nivel de Hiking */}
+            <HikingLevelModal
+                isOpen={isHikingLevelModalOpen}
+                onClose={() => setIsHikingLevelModalOpen(false)}
             />
 
             <Footer />

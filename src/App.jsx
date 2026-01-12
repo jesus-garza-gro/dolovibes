@@ -10,6 +10,10 @@ import HomePage from './pages/HomePage';
 import ExperiencePage from './pages/ExperiencePage';
 import PackageInfoPage from './pages/PackageInfoPage';
 import AboutUsPage from './pages/AboutUsPage';
+import TermsPage from './pages/TermsPage';
+import CancellationPage from './pages/CancellationPage';
+import PrivacyPage from './pages/PrivacyPage';
+import CookiesPage from './pages/CookiesPage';
 
 // --- App Principal ---
 const App = () => {
@@ -42,6 +46,10 @@ const App = () => {
             path="/about"
             element={<AboutUsPage onOpenQuote={() => handleOpenQuote()} />}
           />
+          <Route path="/terminos" element={<TermsPage />} />
+          <Route path="/cancelaciones" element={<CancellationPage />} />
+          <Route path="/privacidad" element={<PrivacyPage />} />
+          <Route path="/cookies" element={<CookiesPage />} />
         </Routes>
 
         {/* Modal de Cotización */}

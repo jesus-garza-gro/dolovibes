@@ -19,12 +19,17 @@
         "submit": "Enviar Solicitud",
         "close": "Cerrar",
         "goBack": "Volver",
-        "backToHome": "Volver al inicio"
+        "backToHome": "Volver al inicio",
+        "quoteCustomTrip": "Cotizar viaje personalizado"
     },
     "labels": {
         "perPerson": "por persona",
         "days": "Días",
         "persons": "Pers."
+    },
+    "experiences": {
+        "notFound": "Experiencia no encontrada",
+        "noPackages": "No hay paquetes disponibles para esta experiencia aún."
     },
     "recommendations": {
         "basedOnSelection": "Basado en tu selección",

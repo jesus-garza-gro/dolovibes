@@ -7,12 +7,20 @@ import commonES from './locales/es/common.json';
 import homeES from './locales/es/home.json';
 import aboutES from './locales/es/about.json';
 import experiencesES from './locales/es/experiences.json';
+import packageInfoES from './locales/es/packageInfo.json';
+import quoteFormES from './locales/es/quoteForm.json';
+import hikingLevelES from './locales/es/hikingLevel.json';
+import legalES from './locales/es/legal.json';
 
 // Importar traducciones en inglés
 import commonEN from './locales/en/common.json';
 import homeEN from './locales/en/home.json';
 import aboutEN from './locales/en/about.json';
 import experiencesEN from './locales/en/experiences.json';
+import packageInfoEN from './locales/en/packageInfo.json';
+import quoteFormEN from './locales/en/quoteForm.json';
+import hikingLevelEN from './locales/en/hikingLevel.json';
+import legalEN from './locales/en/legal.json';
 
 // Importar traducciones en italiano
 import commonIT from './locales/it/common.json';
@@ -87,12 +95,20 @@ i18nInstance.init({
       home: homeES,
       about: aboutES,
       experiences: experiencesES,
+      packageInfo: packageInfoES,
+      quoteForm: quoteFormES,
+      hikingLevel: hikingLevelES,
+      legal: legalES,
     },
     en: {
       common: commonEN,
       home: homeEN,
       about: aboutEN,
       experiences: experiencesEN,
+      packageInfo: packageInfoEN,
+      quoteForm: quoteFormEN,
+      hikingLevel: hikingLevelEN,
+      legal: legalEN,
     },
     it: {
       common: commonIT,
@@ -226,4 +242,3 @@ export const detectLanguageByCountry = (countryCode) => {
 };
 
 export default i18nInstance;
-
