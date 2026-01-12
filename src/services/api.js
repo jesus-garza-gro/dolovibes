@@ -12,6 +12,46 @@
  */
 import strapiClient, { getStrapiMediaUrl } from './strapiClient';
 
+// Locale de fallback cuando no hay contenido en el idioma solicitado
+const FALLBACK_LOCALE = 'es';
+
+/**
+ * Wrapper para peticiones con fallback a español
+ * Si el locale solicitado no devuelve resultados, intenta con español
+ */
+const fetchWithFallback = async (endpoint, params, transformFn, isSingleType = false) => {
+  const response = await strapiClient.get(endpoint, { params });
+  const data = response.data.data;
+  
+  // Para single types, verificar si hay datos
+  if (isSingleType) {
+    if (data && Object.keys(data).length > 0) {
+      return transformFn ? transformFn(data) : data;
+    }
+    // Fallback a español si no hay datos y no estamos ya en español
+    if (params.locale && params.locale !== FALLBACK_LOCALE) {
+      const fallbackParams = { ...params, locale: FALLBACK_LOCALE };
+      const fallbackResponse = await strapiClient.get(endpoint, { params: fallbackParams });
+      return transformFn ? transformFn(fallbackResponse.data.data) : fallbackResponse.data.data;
+    }
+    return transformFn ? transformFn(data) : data;
+  }
+  
+  // Para collection types, verificar si hay resultados
+  if (Array.isArray(data) && data.length > 0) {
+    return transformFn ? transformFn(data) : data;
+  }
+  
+  // Fallback a español si no hay resultados y no estamos ya en español
+  if (params.locale && params.locale !== FALLBACK_LOCALE) {
+    const fallbackParams = { ...params, locale: FALLBACK_LOCALE };
+    const fallbackResponse = await strapiClient.get(endpoint, { params: fallbackParams });
+    return transformFn ? transformFn(fallbackResponse.data.data) : fallbackResponse.data.data;
+  }
+  
+  return transformFn ? transformFn(data) : data;
+};
+
 // ============================================
 // EXPERIENCIAS
 // ============================================
@@ -33,8 +73,7 @@ export const getExperiences = async (locale = 'es', season = null) => {
     params['filters[season][$eq]'] = season;
   }
   
-  const response = await strapiClient.get('/experiences', { params });
-  return transformExperiences(response.data.data);
+  return fetchWithFallback('/experiences', params, transformExperiences);
 };
 
 /**
@@ -50,8 +89,7 @@ export const getExperienceBySlug = async (slug, locale = 'es') => {
     populate: '*',
   };
   
-  const response = await strapiClient.get('/experiences', { params });
-  const experiences = transformExperiences(response.data.data);
+  const experiences = await fetchWithFallback('/experiences', params, transformExperiences);
   return experiences[0] || null;
 };
 
@@ -93,8 +131,7 @@ export const getPackages = async (locale = 'es', filters = {}) => {
     params['filters[season][$eq]'] = filters.season;
   }
   
-  const response = await strapiClient.get('/packages', { params });
-  return transformPackages(response.data.data);
+  return fetchWithFallback('/packages', params, transformPackages);
 };
 
 /**
@@ -123,8 +160,7 @@ export const getPackageBySlug = async (slug, locale = 'es') => {
     },
   };
   
-  const response = await strapiClient.get('/packages', { params });
-  const packages = transformPackages(response.data.data);
+  const packages = await fetchWithFallback('/packages', params, transformPackages);
   return packages[0] || null;
 };
 
@@ -153,8 +189,7 @@ export const getHeroSection = async (locale = 'es') => {
     populate: '*',
   };
   
-  const response = await strapiClient.get('/hero-section', { params });
-  return transformHeroSection(response.data.data);
+  return fetchWithFallback('/hero-section', params, transformHeroSection, true);
 };
 
 // ============================================
@@ -178,8 +213,7 @@ export const getAboutPage = async (locale = 'es') => {
     },
   };
   
-  const response = await strapiClient.get('/about-page', { params });
-  return transformAboutPage(response.data.data);
+  return fetchWithFallback('/about-page', params, transformAboutPage, true);
 };
 
 // ============================================
@@ -197,8 +231,7 @@ export const getSiteSettings = async (locale = 'es') => {
     populate: '*',
   };
   
-  const response = await strapiClient.get('/site-setting', { params });
-  return transformSiteSettings(response.data.data);
+  return fetchWithFallback('/site-setting', params, transformSiteSettings, true);
 };
 
 // ============================================
@@ -221,8 +254,7 @@ export const getGuides = async (locale = 'es', featured = false) => {
     params['filters[featured][$eq]'] = true;
   }
   
-  const response = await strapiClient.get('/guides', { params });
-  return transformGuides(response.data.data);
+  return fetchWithFallback('/guides', params, transformGuides);
 };
 
 // ============================================
@@ -245,8 +277,7 @@ export const getTestimonials = async (locale = 'es', featured = false) => {
     params['filters[featured][$eq]'] = true;
   }
   
-  const response = await strapiClient.get('/testimonials', { params });
-  return transformTestimonials(response.data.data);
+  return fetchWithFallback('/testimonials', params, transformTestimonials);
 };
 
 // ============================================
