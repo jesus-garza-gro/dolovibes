@@ -27,24 +27,40 @@ import commonIT from './locales/it/common.json';
 import homeIT from './locales/it/home.json';
 import aboutIT from './locales/it/about.json';
 import experiencesIT from './locales/it/experiences.json';
+import packageInfoIT from './locales/it/packageInfo.json';
+import quoteFormIT from './locales/it/quoteForm.json';
+import hikingLevelIT from './locales/it/hikingLevel.json';
+import legalIT from './locales/it/legal.json';
 
 // Importar traducciones en portugués
 import commonPT from './locales/pt/common.json';
 import homePT from './locales/pt/home.json';
 import aboutPT from './locales/pt/about.json';
 import experiencesPT from './locales/pt/experiences.json';
+import packageInfoPT from './locales/pt/packageInfo.json';
+import quoteFormPT from './locales/pt/quoteForm.json';
+import hikingLevelPT from './locales/pt/hikingLevel.json';
+import legalPT from './locales/pt/legal.json';
 
 // Importar traducciones en francés
 import commonFR from './locales/fr/common.json';
 import homeFR from './locales/fr/home.json';
 import aboutFR from './locales/fr/about.json';
 import experiencesFR from './locales/fr/experiences.json';
+import packageInfoFR from './locales/fr/packageInfo.json';
+import quoteFormFR from './locales/fr/quoteForm.json';
+import hikingLevelFR from './locales/fr/hikingLevel.json';
+import legalFR from './locales/fr/legal.json';
 
 // Importar traducciones en alemán
 import commonDE from './locales/de/common.json';
 import homeDE from './locales/de/home.json';
 import aboutDE from './locales/de/about.json';
 import experiencesDE from './locales/de/experiences.json';
+import packageInfoDE from './locales/de/packageInfo.json';
+import quoteFormDE from './locales/de/quoteForm.json';
+import hikingLevelDE from './locales/de/hikingLevel.json';
+import legalDE from './locales/de/legal.json';
 
 // ============================================
 // CONFIGURACIÓN DE AUTO-DETECCIÓN DE IDIOMA
@@ -115,24 +131,40 @@ i18nInstance.init({
       home: homeIT,
       about: aboutIT,
       experiences: experiencesIT,
+      packageInfo: packageInfoIT,
+      quoteForm: quoteFormIT,
+      hikingLevel: hikingLevelIT,
+      legal: legalIT,
     },
     pt: {
       common: commonPT,
       home: homePT,
       about: aboutPT,
       experiences: experiencesPT,
+      packageInfo: packageInfoPT,
+      quoteForm: quoteFormPT,
+      hikingLevel: hikingLevelPT,
+      legal: legalPT,
     },
     fr: {
       common: commonFR,
       home: homeFR,
       about: aboutFR,
       experiences: experiencesFR,
+      packageInfo: packageInfoFR,
+      quoteForm: quoteFormFR,
+      hikingLevel: hikingLevelFR,
+      legal: legalFR,
     },
     de: {
       common: commonDE,
       home: homeDE,
       about: aboutDE,
       experiences: experiencesDE,
+      packageInfo: packageInfoDE,
+      quoteForm: quoteFormDE,
+      hikingLevel: hikingLevelDE,
+      legal: legalDE,
     }
   },
   // Si la detección está deshabilitada, usar español por defecto
