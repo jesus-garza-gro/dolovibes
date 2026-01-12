@@ -9,44 +9,27 @@
  * - Site Settings
  * - Guías
  * - Testimonios
+ * 
+ * NOTA: El contenido de Strapi está solo en español.
+ * La UI del sitio soporta múltiples idiomas (archivos JSON).
  */
 import strapiClient, { getStrapiMediaUrl } from './strapiClient';
 
-// Locale de fallback cuando no hay contenido en el idioma solicitado
-const FALLBACK_LOCALE = 'es';
+// Locale fijo - contenido solo en español
+const CONTENT_LOCALE = 'es';
 
 /**
- * Wrapper para peticiones con fallback a español
- * Si el locale solicitado no devuelve resultados, intenta con español
+ * Wrapper simplificado para peticiones a Strapi
+ * Siempre usa locale español ya que el contenido está solo en ES
  */
-const fetchWithFallback = async (endpoint, params, transformFn, isSingleType = false) => {
-  const response = await strapiClient.get(endpoint, { params });
+const fetchFromStrapi = async (endpoint, params, transformFn, isSingleType = false) => {
+  // Forzar locale español para todo el contenido
+  const finalParams = { ...params, locale: CONTENT_LOCALE };
+  const response = await strapiClient.get(endpoint, { params: finalParams });
   const data = response.data.data;
   
-  // Para single types, verificar si hay datos
   if (isSingleType) {
-    if (data && Object.keys(data).length > 0) {
-      return transformFn ? transformFn(data) : data;
-    }
-    // Fallback a español si no hay datos y no estamos ya en español
-    if (params.locale && params.locale !== FALLBACK_LOCALE) {
-      const fallbackParams = { ...params, locale: FALLBACK_LOCALE };
-      const fallbackResponse = await strapiClient.get(endpoint, { params: fallbackParams });
-      return transformFn ? transformFn(fallbackResponse.data.data) : fallbackResponse.data.data;
-    }
     return transformFn ? transformFn(data) : data;
-  }
-  
-  // Para collection types, verificar si hay resultados
-  if (Array.isArray(data) && data.length > 0) {
-    return transformFn ? transformFn(data) : data;
-  }
-  
-  // Fallback a español si no hay resultados y no estamos ya en español
-  if (params.locale && params.locale !== FALLBACK_LOCALE) {
-    const fallbackParams = { ...params, locale: FALLBACK_LOCALE };
-    const fallbackResponse = await strapiClient.get(endpoint, { params: fallbackParams });
-    return transformFn ? transformFn(fallbackResponse.data.data) : fallbackResponse.data.data;
   }
   
   return transformFn ? transformFn(data) : data;
@@ -58,13 +41,11 @@ const fetchWithFallback = async (endpoint, params, transformFn, isSingleType = f
 
 /**
  * Obtiene todas las experiencias
- * @param {string} locale - Idioma (es/en)
  * @param {string} season - Filtro por temporada (summer/winter)
  * @returns {Promise<Array>} Lista de experiencias
  */
 export const getExperiences = async (locale = 'es', season = null) => {
   const params = {
-    locale,
     populate: '*',
     'pagination[pageSize]': 100,
   };
@@ -73,23 +54,21 @@ export const getExperiences = async (locale = 'es', season = null) => {
     params['filters[season][$eq]'] = season;
   }
   
-  return fetchWithFallback('/experiences', params, transformExperiences);
+  return fetchFromStrapi('/experiences', params, transformExperiences);
 };
 
 /**
  * Obtiene una experiencia por slug
  * @param {string} slug - Slug de la experiencia
- * @param {string} locale - Idioma
  * @returns {Promise<Object>} Experiencia
  */
 export const getExperienceBySlug = async (slug, locale = 'es') => {
   const params = {
-    locale,
     'filters[slug][$eq]': slug,
     populate: '*',
   };
   
-  const experiences = await fetchWithFallback('/experiences', params, transformExperiences);
+  const experiences = await fetchFromStrapi('/experiences', params, transformExperiences);
   return experiences[0] || null;
 };
 
@@ -131,7 +110,7 @@ export const getPackages = async (locale = 'es', filters = {}) => {
     params['filters[season][$eq]'] = filters.season;
   }
   
-  return fetchWithFallback('/packages', params, transformPackages);
+  return fetchFromStrapi('/packages', params, transformPackages);
 };
 
 /**
@@ -160,7 +139,7 @@ export const getPackageBySlug = async (slug, locale = 'es') => {
     },
   };
   
-  const packages = await fetchWithFallback('/packages', params, transformPackages);
+  const packages = await fetchFromStrapi('/packages', params, transformPackages);
   return packages[0] || null;
 };
 
@@ -189,7 +168,7 @@ export const getHeroSection = async (locale = 'es') => {
     populate: '*',
   };
   
-  return fetchWithFallback('/hero-section', params, transformHeroSection, true);
+  return fetchFromStrapi('/hero-section', params, transformHeroSection, true);
 };
 
 // ============================================
@@ -213,7 +192,7 @@ export const getAboutPage = async (locale = 'es') => {
     },
   };
   
-  return fetchWithFallback('/about-page', params, transformAboutPage, true);
+  return fetchFromStrapi('/about-page', params, transformAboutPage, true);
 };
 
 // ============================================
@@ -231,7 +210,7 @@ export const getSiteSettings = async (locale = 'es') => {
     populate: '*',
   };
   
-  return fetchWithFallback('/site-setting', params, transformSiteSettings, true);
+  return fetchFromStrapi('/site-setting', params, transformSiteSettings, true);
 };
 
 // ============================================
@@ -254,7 +233,7 @@ export const getGuides = async (locale = 'es', featured = false) => {
     params['filters[featured][$eq]'] = true;
   }
   
-  return fetchWithFallback('/guides', params, transformGuides);
+  return fetchFromStrapi('/guides', params, transformGuides);
 };
 
 // ============================================
@@ -277,7 +256,7 @@ export const getTestimonials = async (locale = 'es', featured = false) => {
     params['filters[featured][$eq]'] = true;
   }
   
-  return fetchWithFallback('/testimonials', params, transformTestimonials);
+  return fetchFromStrapi('/testimonials', params, transformTestimonials);
 };
 
 // ============================================
