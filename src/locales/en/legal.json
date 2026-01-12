@@ -1,0 +1,110 @@
+{
+    "terms": {
+        "title": "Booking Conditions",
+        "intro": "These Booking Conditions regulate the contracting of services offered by Dolovibes S de RL, operating as Dolo Vibes.",
+        "acceptance": "By making a reservation, the client accepts these conditions.",
+        "questions": "Have questions?",
+        "questionsDesc": "If you have questions about our booking conditions, don't hesitate to contact us."
+    },
+    "cancellation": {
+        "title": "Cancellation and Refund Policy",
+        "intro": "Cancellation policies vary depending on the package and providers involved, as we work with hotels, refuges, and local guides that have their own policies.",
+        "clientTitle": "Cancellations by the client",
+        "clientGeneral": "Generally:",
+        "moreThan45": "Cancellations more than 45 days before the trip starts:",
+        "moreThan45Desc": "Partial refund, deducting administrative costs and already booked services.",
+        "lessThan45": "Cancellations less than 45 days before the trip:",
+        "lessThan45Desc": "Non-refundable.",
+        "nonRefundable": "Some services may be 100% non-refundable from the moment of booking, especially during high season or for specific accommodations.",
+        "companyTitle": "Cancellations or changes by the Company",
+        "companyIntro": "The Company may modify or cancel the itinerary due to:",
+        "companyReasons": [
+            "Weather conditions",
+            "Safety reasons",
+            "Force majeure",
+            "Lack of provider availability"
+        ],
+        "clientOptions": "In these cases, the client may choose to:",
+        "options": [
+            "Reschedule the trip",
+            "Receive credit for a future trip",
+            "Partial or full refund, depending on costs already committed to providers"
+        ],
+        "noShow": "No-Show",
+        "noShowDesc": "If the client does not show up at the agreed place and date, it will be considered a late cancellation and there will be no right to a refund.",
+        "refunds": "Refunds",
+        "refundsDesc": "Refunds, when applicable, will be made through the same payment method used, within a period of 15 to 30 business days, depending on the payment platform.",
+        "importantNote": "Important Note",
+        "importantNoteDesc": "The specific policies of each package are detailed during the booking process and are part of the Booking Conditions accepted by the client when contracting."
+    },
+    "privacy": {
+        "title": "Privacy Notice",
+        "intro": "In compliance with the Federal Law on Protection of Personal Data Held by Private Parties, Dolovibes S de RL, with address in Monterrey Nuevo León, is responsible for the use and protection of your personal data.",
+        "dataTitle": "Personal Data We Collect",
+        "dataIntro": "We may collect the following data:",
+        "dataList": [
+            "Full name",
+            "Email",
+            "Phone",
+            "Nationality",
+            "Emergency contact information",
+            "Data necessary for the provision of tourist services",
+            "Relevant health information provided voluntarily"
+        ],
+        "dataNote": "We do not collect financial data directly; payments are processed through external payment platforms.",
+        "purposeTitle": "Purposes of Data Processing",
+        "purposeList": [
+            "Process reservations",
+            "Manage tourist services",
+            "Contact the client before, during and after the trip",
+            "Comply with legal obligations",
+            "Send information related to the contracted service"
+        ],
+        "additionalPurpose": "Additionally, we may use your data for sending promotions and commercial communications.",
+        "cancelNote": "You can request the cancellation of this use at any time.",
+        "transferTitle": "Data Transfer",
+        "transferIntro": "Your data may be shared with:",
+        "transferList": [
+            "Tourist providers (hotels, guides, transportation)",
+            "Payment platforms",
+            "Authorities when legally required"
+        ],
+        "transferNote": "Only the data strictly necessary for the provision of the service is shared.",
+        "arcoTitle": "ARCO Rights",
+        "arcoIntro": "You have the right to:",
+        "arcoRights": [
+            "Access",
+            "Rectify",
+            "Cancel",
+            "Object"
+        ],
+        "arcoNote": "to the processing of your personal data.",
+        "arcoEmail": "To exercise these rights, you can send a request to the email:",
+        "securityTitle": "Security Measures",
+        "securityDesc": "The Company implements administrative, technical and physical measures to protect your personal data against damage, loss, alteration or unauthorized use.",
+        "changesTitle": "Changes to Privacy Notice",
+        "changesDesc": "The Company may modify this Privacy Notice. Any changes will be published on this website."
+    },
+    "cookies": {
+        "title": "Cookie Policy",
+        "intro": "This website uses cookies to improve the user experience.",
+        "whatTitle": "What are cookies?",
+        "whatDesc": "Cookies are small files that are stored on your device when you visit a website and allow your browser to be recognized.",
+        "typesTitle": "Types of Cookies We Use",
+        "necessary": "Necessary cookies",
+        "necessaryDesc": "Enable basic site functionality, such as access to secure areas and the booking process.",
+        "analytics": "Analytics cookies",
+        "analyticsDesc": "Help us understand how users interact with the site to improve our services (e.g., Google Analytics).",
+        "marketing": "Marketing cookies",
+        "marketingDesc": "Used to display relevant advertising on external platforms.",
+        "managementTitle": "Cookie Management",
+        "managementDesc1": "The user can accept, reject or configure the use of cookies from the cookie banner when entering the site.",
+        "managementDesc2": "You can also delete cookies from your browser settings.",
+        "changesTitle": "Changes to Cookie Policy",
+        "changesDesc": "This policy may be updated at any time. Changes will be published on this page."
+    },
+    "common": {
+        "back": "Back",
+        "backToHome": "Back to Home"
+    }
+}

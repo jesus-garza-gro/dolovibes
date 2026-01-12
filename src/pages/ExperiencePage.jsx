@@ -22,7 +22,7 @@ const ExperiencePage = ({ onOpenQuote }) => {
         return (
             <div className="min-h-screen flex items-center justify-center bg-nieve">
                 <div className="text-center">
-                    <h1 className="text-2xl font-bold text-grafito mb-4">Experiencia no encontrada</h1>
+                    <h1 className="text-2xl font-bold text-grafito mb-4">{tCommon('experiences.notFound')}</h1>
                     <button
                         onClick={() => navigate('/')}
                         className="bg-alpino text-white px-6 py-3 rounded-full font-semibold hover:bg-alpino transition-colors"
@@ -79,12 +79,12 @@ const ExperiencePage = ({ onOpenQuote }) => {
 
                     {relatedPackages.length === 0 && (
                         <div className="text-center py-12">
-                            <p className="text-niebla mb-4">No hay paquetes disponibles para esta experiencia aún.</p>
+                            <p className="text-niebla mb-4">{tCommon('experiences.noPackages')}</p>
                             <button
                                 onClick={() => onOpenQuote(experience.title)}
                                 className="bg-alpino hover:bg-alpino text-white px-6 py-3 rounded-full font-semibold transition-colors"
                             >
-                                Cotizar viaje personalizado
+                                {tCommon('buttons.quoteCustomTrip')}
                             </button>
                         </div>
                     )}
