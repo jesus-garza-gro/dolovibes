@@ -15,14 +15,15 @@ const Footer = () => {
     const { t } = useTranslation('common');
     const { data: siteSettings, isLoading } = useSiteSettings();
 
-    // Valores por defecto si no hay datos de Strapi
+    // Datos de contacto de Strapi (no requieren traducción)
     const location = siteSettings?.location || 'Monterrey, México';
     const phone = siteSettings?.phone || '+52 81 1234 5678';
     const email = siteSettings?.email || 'info@dolovibes.com';
     const instagramUrl = siteSettings?.instagramUrl || 'https://instagram.com';
     const facebookUrl = siteSettings?.facebookUrl || 'https://facebook.com';
     const tiktokUrl = siteSettings?.tiktokUrl || 'https://tiktok.com';
-    const footerDescription = siteSettings?.footerDescription || t('footer.description');
+    // Textos: siempre de i18n
+    const footerDescription = t('footer.description');
 
     if (isLoading) {
         return (

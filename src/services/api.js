@@ -13,9 +13,7 @@
  * 
  *   Collection Types (endpoint = pluralName):
  *   ├── experiences    → /api/experiences
- *   ├── packages       → /api/packages
- *   ├── guides         → /api/guides
- *   └── testimonials   → /api/testimonials
+ *   └── packages       → /api/packages
  * 
  * MANEJO DE LOCALES (i18n):
  * ─────────────────────────────────────────────────────────────
@@ -37,7 +35,7 @@ import i18n from '../i18n';
 // ═══════════════════════════════════════════════════════════════
 
 const DEFAULT_LOCALE = 'es'; // Idioma con contenido completo garantizado
-const SUPPORTED_STRAPI_LOCALES = ['es', 'en']; // Idiomas disponibles en Strapi
+const SUPPORTED_STRAPI_LOCALES = ['es', 'en', 'it', 'de']; // Idiomas disponibles en Strapi (optimizados por ROI)
 
 /**
  * Obtiene el locale actual para Strapi
@@ -267,58 +265,7 @@ export const getSiteSettings = async () => {
   return fetchFromStrapi('/site-setting', { populate: SETTINGS_POPULATE }, transformSiteSettings, true);
 };
 
-// ═══════════════════════════════════════════════════════════════
-// GUÍAS (Collection Type)
-// Endpoint: /api/guides
-// ═══════════════════════════════════════════════════════════════
 
-const GUIDE_POPULATE = {
-  photo: true,
-  certifications: true,
-  languages: true,
-};
-
-/**
- * Obtiene guías
- * @param {boolean} featured - Solo guías destacados
- */
-export const getGuides = async (featured = false) => {
-  const params = {
-    populate: GUIDE_POPULATE,
-  };
-
-  if (featured) {
-    params['filters[featured][$eq]'] = true;
-  }
-
-  return fetchFromStrapi('/guides', params, transformGuides);
-};
-
-// ═══════════════════════════════════════════════════════════════
-// TESTIMONIOS (Collection Type)
-// Endpoint: /api/testimonials
-// ═══════════════════════════════════════════════════════════════
-
-const TESTIMONIAL_POPULATE = {
-  photo: true,
-  package: true,
-};
-
-/**
- * Obtiene testimonios
- * @param {boolean} featured - Solo testimonios destacados
- */
-export const getTestimonials = async (featured = false) => {
-  const params = {
-    populate: TESTIMONIAL_POPULATE,
-  };
-
-  if (featured) {
-    params['filters[featured][$eq]'] = true;
-  }
-
-  return fetchFromStrapi('/testimonials', params, transformTestimonials);
-};
 
 // ═══════════════════════════════════════════════════════════════
 // TRANSFORMADORES DE DATOS
@@ -468,40 +415,7 @@ const transformSiteSettings = (data) => {
   };
 };
 
-const transformGuides = (data) => {
-  if (!data) return [];
-  const items = Array.isArray(data) ? data : [data];
 
-  return items.map((item) => ({
-    id: item.id,
-    name: item.name,
-    slug: item.slug,
-    photo: getStrapiMediaUrl(item.photo?.url),
-    certifications: item.certifications?.map(c => c.text) || [],
-    yearsExperience: item.yearsExperience,
-    specialty: item.specialty,
-    bio: item.bio,
-    languages: item.languages?.map(l => l.text) || [],
-    featured: item.featured,
-  }));
-};
-
-const transformTestimonials = (data) => {
-  if (!data) return [];
-  const items = Array.isArray(data) ? data : [data];
-
-  return items.map((item) => ({
-    id: item.id,
-    clientName: item.clientName,
-    country: item.country,
-    rating: item.rating,
-    comment: item.comment,
-    photo: getStrapiMediaUrl(item.photo?.url),
-    tripDate: item.tripDate,
-    packageSlug: item.package?.slug,
-    featured: item.featured,
-  }));
-};
 
 // ═══════════════════════════════════════════════════════════════
 // EXPORTS
@@ -516,6 +430,4 @@ export default {
   getHeroSection,
   getAboutPage,
   getSiteSettings,
-  getGuides,
-  getTestimonials,
 };

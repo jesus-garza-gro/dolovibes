@@ -3,16 +3,17 @@
  * 
  * ARQUITECTURA:
  * ─────────────────────────────────────────────────────────────
- * - El contenido de Strapi está SOLO en español ('es')
- * - No se pasa locale a las funciones API
- * - La UI soporta 6 idiomas via archivos JSON (i18n)
- * - React Query maneja caching y revalidación
+ * - El contenido de Strapi soporta 4 locales: es, en, it, de
+ * - React Query maneja caching y revalidación por locale
+ * - La UI soporta los mismos 4 idiomas via i18n
+ * - Invalidación de cache al cambiar idioma
  * 
  * FALLBACK:
  * ─────────────────────────────────────────────────────────────
  * Si VITE_USE_STRAPI=false, se usan datos estáticos de /data/
  */
 import { useQuery } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import api from './api';
 
 // Importar datos estáticos como fallback
@@ -207,43 +208,6 @@ export const useSiteSettings = () => {
 };
 
 // ============================================
-// HOOKS DE GUÍAS Y TESTIMONIOS (Collection Types)
-// ============================================
-
-/**
- * Hook para obtener guías
- * @param {boolean} featured - Solo destacados
- */
-export const useGuides = (featured = false) => {
-  return useQuery({
-    queryKey: ['guides', featured],
-    queryFn: async () => {
-      if (!USE_STRAPI) {
-        return []; // Sin datos estáticos para guías
-      }
-      return api.getGuides(featured);
-    },
-    ...defaultQueryOptions,
-  });
-};
-
-/**
- * Hook para obtener testimonios
- * @param {boolean} featured - Solo destacados
- */
-export const useTestimonials = (featured = false) => {
-  return useQuery({
-    queryKey: ['testimonials', featured],
-    queryFn: async () => {
-      if (!USE_STRAPI) {
-        return []; // Sin datos estáticos para testimonios
-      }
-      return api.getTestimonials(featured);
-    },
-    ...defaultQueryOptions,
-  });
-};
-
 export default {
   useExperiences,
   useExperience,
@@ -253,6 +217,4 @@ export default {
   useHeroSection,
   useAboutPage,
   useSiteSettings,
-  useGuides,
-  useTestimonials,
 };
