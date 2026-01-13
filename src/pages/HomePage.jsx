@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
+import SEO from '../components/SEO';
 import VideoHero from '../components/VideoHero';
 import PackageRecommendations from '../components/PackageRecommendations';
 import Footer from '../components/Footer';
@@ -51,6 +52,13 @@ const HomePage = () => {
 
     return (
         <div className="min-h-screen">
+            <SEO
+                title="Experiencias de Trekking en las Dolomitas"
+                description="Descubre las Dolomitas italianas con DoloVibes. Viajes de trekking guiados y autoguiados, senderismo en refugios de montaña, y experiencias únicas en los Alpes."
+                keywords="Dolomitas, trekking, senderismo, Italia, refugios de montaña, viajes de aventura, hiking"
+                canonicalUrl="/"
+                ogType="website"
+            />
             <VideoHero key={heroKey} onExperienceSelect={handleExperienceSelect} />
 
             {/* Package Recommendations - siempre visible con paquetes destacados o seleccionados */}

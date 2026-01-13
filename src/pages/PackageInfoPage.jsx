@@ -14,6 +14,7 @@ import {
     X
 } from 'lucide-react';
 import { getPackageBySlug } from '../data/packages';
+import SEO from '../components/SEO';
 import PackageQuoteModal from '../components/PackageQuoteModal';
 import PhotoGalleryModal from '../components/PhotoGalleryModal';
 import HikingLevelModal from '../components/HikingLevelModal';
@@ -123,6 +124,44 @@ const PackageInfoPage = ({ onOpenQuote }) => {
 
     return (
         <div className="min-h-screen bg-white">
+            <SEO
+                title={pkg.title}
+                description={pkg.description}
+                keywords={`${pkg.title}, Dolomitas, trekking, ${pkg.experience}, hiking, Italia`}
+                canonicalUrl={`/paquete/${slug}`}
+                ogImage={pkg.heroImage || pkg.image}
+                ogType="product"
+                structuredData={{
+                    "@context": "https://schema.org",
+                    "@type": "TouristTrip",
+                    "name": pkg.title,
+                    "description": pkg.description,
+                    "image": pkg.heroImage || pkg.image,
+                    "touristType": ["Adventure travelers", "Hiking enthusiasts"],
+                    "itinerary": {
+                        "@type": "ItemList",
+                        "numberOfItems": pkg.itinerary?.length || 0,
+                        "itemListElement": pkg.itinerary?.map((day, idx) => ({
+                            "@type": "ListItem",
+                            "position": idx + 1,
+                            "name": day.title,
+                            "description": day.description
+                        }))
+                    },
+                    "offers": {
+                        "@type": "Offer",
+                        "price": pkg.price?.replace(/[^0-9]/g, ''),
+                        "priceCurrency": "EUR",
+                        "availability": "https://schema.org/InStock",
+                        "validFrom": "2026-01-01"
+                    },
+                    "provider": {
+                        "@type": "TravelAgency",
+                        "name": "DoloVibes",
+                        "url": "https://dolovibes.com"
+                    }
+                }}
+            />
             {/* Hero - Pantalla completa */}
             <div className="relative min-h-screen flex items-end">
                 <img

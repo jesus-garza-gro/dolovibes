@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import SEO from '../components/SEO';
 import Footer from '../components/Footer';
 
 const AboutUsPage = ({ onOpenQuote }) => {
@@ -15,6 +16,12 @@ const AboutUsPage = ({ onOpenQuote }) => {
 
     return (
         <div className="min-h-screen bg-white">
+            <SEO
+                title="Sobre Nosotros"
+                description="Conoce a DoloVibes, tu agencia de viajes especializada en trekking y senderismo en las Dolomitas italianas. Nuestra historia, visión y misión."
+                keywords="DoloVibes, agencia de viajes, Dolomitas, sobre nosotros, trekking, senderismo"
+                canonicalUrl="/about"
+            />
             {/* Espaciado para navbar */}
             <div className="pt-24"></div>
 
