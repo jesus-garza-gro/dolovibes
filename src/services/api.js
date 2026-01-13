@@ -125,8 +125,6 @@ const enrichWithSpanishMedia = (currentData, spanishData) => {
     
     return enrichedItem;
   }
-    return enrichedItem;
-  }
 
   return currentData;
 };
