@@ -409,7 +409,6 @@ const transformExperiences = (data) => {
     bestFor: item.bestFor,
   }));
 };
-};
 
 const transformPackages = (data) => {
   if (!data) return [];
