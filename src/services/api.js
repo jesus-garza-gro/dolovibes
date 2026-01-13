@@ -51,7 +51,93 @@ const getCurrentLocale = () => {
 // ═══════════════════════════════════════════════════════════════
 
 /**
+ * Campos de media que necesitan fallback desde español (después de transformación)
+ * Strapi v5 no comparte media entre traducciones automáticamente
+ */
+const MEDIA_FIELDS = ['image', 'heroImage', 'gallery', 'itinerary'];
+
+/**
+ * Enriquece los datos transformados del locale actual con imágenes del locale español
+ * @param {Array|Object} currentData - Datos transformados en el locale actual
+ * @param {Array|Object} spanishData - Datos transformados en español (con imágenes)
+ * @returns {Array|Object} Datos enriquecidos con imágenes
+ */
+const enrichWithSpanishMedia = (currentData, spanishData) => {
+  if (!currentData || !spanishData) return currentData;
+
+  // Para arrays (experiencias, paquetes)
+  if (Array.isArray(currentData)) {
+    // Crear mapa de datos españoles por documentId (identificador entre traducciones)
+    const spanishMap = new Map();
+    spanishData.forEach(item => {
+      if (item.documentId) {
+        spanishMap.set(item.documentId, item);
+      }
+    });
+
+    return currentData.map(item => {
+      const spanishItem = spanishMap.get(item.documentId);
+      if (!spanishItem) return item;
+
+      // Copiar campos de media que estén vacíos o null
+      const enrichedItem = { ...item };
+      
+      // Image y heroImage
+      if (!enrichedItem.image && spanishItem.image) {
+        enrichedItem.image = spanishItem.image;
+      }
+      if (!enrichedItem.heroImage && spanishItem.heroImage) {
+        enrichedItem.heroImage = spanishItem.heroImage;
+      }
+
+      // Gallery (array de objetos con url)
+      if ((!enrichedItem.gallery || enrichedItem.gallery.length === 0) && spanishItem.gallery && spanishItem.gallery.length > 0) {
+        enrichedItem.gallery = spanishItem.gallery;
+      }
+
+      // Itinerary (array de objetos con image)
+      if (enrichedItem.itinerary && spanishItem.itinerary) {
+        enrichedItem.itinerary = enrichedItem.itinerary.map((day, idx) => {
+          if (!day.image && spanishItem.itinerary[idx]?.image) {
+            return { ...day, image: spanishItem.itinerary[idx].image };
+          }
+          return day;
+        });
+      }
+
+      return enrichedItem;
+    });
+  }
+
+  // Para objetos individuales
+  if (typeof currentData === 'object') {
+    const enrichedItem = { ...currentData };
+    
+    if (!enrichedItem.image && spanishData.image) {
+      enrichedItem.image = spanishData.image;
+    }
+    if (!enrichedItem.heroImage && spanishData.heroImage) {
+      enrichedItem.heroImage = spanishData.heroImage;
+    }
+    if ((!enrichedItem.gallery || enrichedItem.gallery.length === 0) && spanishData.gallery) {
+      enrichedItem.gallery = spanishData.gallery;
+    }
+    
+    return enrichedItem;
+  }
+    return enrichedItem;
+  }
+
+  return currentData;
+};
+
+/**
  * Wrapper centralizado para peticiones a Strapi con fallback de idioma
+ * 
+ * ESTRATEGIA DE FALLBACK:
+ * 1. Si el locale NO es español, obtiene datos en ambos idiomas
+ * 2. Enriquece los datos del locale actual con imágenes de español
+ * 3. Si no hay datos en el locale actual, usa español completo
  * 
  * @param {string} endpoint - Ruta del API (ej: '/experiences')
  * @param {object} params - Parámetros de query (populate, filters, etc.)
@@ -62,34 +148,64 @@ const getCurrentLocale = () => {
 const fetchFromStrapi = async (endpoint, params = {}, transformFn = null, isSingleType = false) => {
   const locale = getCurrentLocale();
 
-  // Collection Types requieren locale, Single Types no
-  const finalParams = isSingleType
-    ? { ...params }
-    : { ...params, locale };
+  // Single Types no usan locale
+  if (isSingleType) {
+    const response = await strapiClient.get(endpoint, { params });
+    const data = response.data.data;
+    return transformFn ? transformFn(data) : data;
+  }
+
+  // Collection Types: obtener datos en el locale actual
+  const finalParams = { ...params, locale };
 
   try {
     const response = await strapiClient.get(endpoint, { params: finalParams });
-    const data = response.data.data;
+    let data = response.data.data;
 
-    // Si no hay datos y no estamos en el idioma default, intentar con español
-    if ((!data || (Array.isArray(data) && data.length === 0)) && locale !== DEFAULT_LOCALE && !isSingleType) {
-      const fallbackParams = { ...params, locale: DEFAULT_LOCALE };
-      const fallbackResponse = await strapiClient.get(endpoint, { params: fallbackParams });
-      const fallbackData = fallbackResponse.data.data;
-      return transformFn ? transformFn(fallbackData) : fallbackData;
+    // Si no hay datos, intentar con español como fallback completo
+    if (!data || (Array.isArray(data) && data.length === 0)) {
+      if (locale !== DEFAULT_LOCALE) {
+        const fallbackParams = { ...params, locale: DEFAULT_LOCALE };
+        const fallbackResponse = await strapiClient.get(endpoint, { params: fallbackParams });
+        const fallbackData = fallbackResponse.data.data;
+        return transformFn ? transformFn(fallbackData) : fallbackData;
+      }
+      return transformFn ? transformFn(data) : data;
     }
 
-    return transformFn ? transformFn(data) : data;
+    // Transformar datos PRIMERO
+    const transformedData = transformFn ? transformFn(data) : data;
+
+    // Si tenemos datos pero NO estamos en español, enriquecer con imágenes de español
+    if (locale !== DEFAULT_LOCALE) {
+      try {
+        const spanishParams = { ...params, locale: DEFAULT_LOCALE };
+        const spanishResponse = await strapiClient.get(endpoint, { params: spanishParams });
+        const spanishData = spanishResponse.data.data;
+        
+        // Transformar datos españoles también
+        const transformedSpanishData = transformFn ? transformFn(spanishData) : spanishData;
+
+        // Enriquecer datos actuales con media de español (DESPUÉS de transformar)
+        return enrichWithSpanishMedia(transformedData, transformedSpanishData);
+      } catch (spanishError) {
+        // Si falla obtener español, continuar con datos actuales
+        console.warn('[Strapi] Could not fetch Spanish fallback for media:', spanishError.message);
+        return transformedData;
+      }
+    }
+
+    return transformedData;
   } catch (error) {
-    // Si falla, intentar con español como fallback
-    if (locale !== DEFAULT_LOCALE && !isSingleType) {
+    // Error principal: intentar fallback completo a español
+    if (locale !== DEFAULT_LOCALE) {
       try {
         const fallbackParams = { ...params, locale: DEFAULT_LOCALE };
         const fallbackResponse = await strapiClient.get(endpoint, { params: fallbackParams });
         const fallbackData = fallbackResponse.data.data;
         return transformFn ? transformFn(fallbackData) : fallbackData;
       } catch {
-        throw error; // Si también falla el fallback, propagar error original
+        throw error;
       }
     }
     throw error;
@@ -280,12 +396,13 @@ const transformExperiences = (data) => {
 
   return items.map((item) => ({
     id: item.id,
+    documentId: item.documentId, // Necesario para enrichWithSpanishMedia
     title: item.title,
     slug: item.slug,
     season: item.season === 'summer' ? 'verano' : 'invierno',
     tags: item.tags?.map(t => t.name) || [],
-    image: getStrapiMediaUrl(item.thumbnail?.url),
-    heroImage: getStrapiMediaUrl(item.heroImage?.url),
+    image: getStrapiMediaUrl(item.thumbnail),
+    heroImage: getStrapiMediaUrl(item.heroImage),
     shortDescription: item.shortDescription,
     longDescription: item.longDescription,
     highlights: item.highlights?.map(h => h.text) || [],
@@ -294,6 +411,7 @@ const transformExperiences = (data) => {
     bestFor: item.bestFor,
   }));
 };
+};
 
 const transformPackages = (data) => {
   if (!data) return [];
@@ -301,6 +419,7 @@ const transformPackages = (data) => {
 
   return items.map((item) => ({
     id: item.id,
+    documentId: item.documentId, // Necesario para enrichWithSpanishMedia
     experienceSlug: item.experience?.slug || '',
     title: item.title,
     slug: item.slug,
@@ -313,10 +432,11 @@ const transformPackages = (data) => {
     originalPriceAmount: item.originalPriceAmount,
     duration: item.duration,
     rating: item.rating,
-    image: getStrapiMediaUrl(item.thumbnail?.url),
-    heroImage: getStrapiMediaUrl(item.heroImage?.url),
+    // Pasar objeto media completo - getStrapiMediaUrl maneja ambos formatos
+    image: getStrapiMediaUrl(item.thumbnail),
+    heroImage: getStrapiMediaUrl(item.heroImage),
     gallery: item.gallery?.map(g => ({
-      url: getStrapiMediaUrl(g.image?.url),
+      url: getStrapiMediaUrl(g.image),
       caption: g.caption || '',
       alt: g.caption || item.title,
     })) || [],
@@ -328,7 +448,7 @@ const transformPackages = (data) => {
       day: day.day,
       title: day.title,
       description: day.description,
-      image: getStrapiMediaUrl(day.image?.url),
+      image: getStrapiMediaUrl(day.image),
     })) || [],
     includes: item.includes?.map(inc => ({
       label: inc.label,
@@ -359,9 +479,10 @@ const transformHeroSection = (data) => {
     titleHighlight: data.titleHighlight,
     badge: data.badge,
     subtitle: data.subtitle,
-    videoDesktop: getStrapiMediaUrl(data.videoDesktop?.url),
-    videoMobile: getStrapiMediaUrl(data.videoMobile?.url),
-    fallbackImage: getStrapiMediaUrl(data.fallbackImage?.url),
+    // Pasar objeto media completo
+    videoDesktop: getStrapiMediaUrl(data.videoDesktop),
+    videoMobile: getStrapiMediaUrl(data.videoMobile),
+    fallbackImage: getStrapiMediaUrl(data.fallbackImage),
   };
 };
 
@@ -370,7 +491,8 @@ const transformAboutPage = (data) => {
 
   return {
     pageTitle: data.pageTitle,
-    mainPhoto: getStrapiMediaUrl(data.mainPhoto?.url),
+    // Pasar objeto media completo
+    mainPhoto: getStrapiMediaUrl(data.mainPhoto),
     photoAlt: data.photoAlt,
     origin: data.origin ? {
       title: data.origin.title,
@@ -396,9 +518,9 @@ const transformSiteSettings = (data) => {
 
   return {
     siteName: data.siteName,
-    logo: getStrapiMediaUrl(data.logo?.url),
-    logoDark: getStrapiMediaUrl(data.logoDark?.url),
-    favicon: getStrapiMediaUrl(data.favicon?.url),
+    logo: getStrapiMediaUrl(data.logo),
+    logoDark: getStrapiMediaUrl(data.logoDark),
+    favicon: getStrapiMediaUrl(data.favicon),
     location: data.location,
     phone: data.phone,
     email: data.email,
