@@ -14,7 +14,7 @@ import {
     X,
     Calendar
 } from 'lucide-react';
-import { usePackage } from '../services/hooks';
+import { usePackage, useSiteTexts } from '../services/hooks';
 import { useCurrencyContext, parsePrice } from '../utils/currency';
 import PackageQuoteModal from '../components/PackageQuoteModal';
 import PhotoGalleryModal from '../components/PhotoGalleryModal';
@@ -29,6 +29,10 @@ const PackageInfoPage = ({ onOpenQuote }) => {
 
     // Usar hook de React Query para datos dinámicos
     const { data: pkg, isLoading, error } = usePackage(slug);
+    const { data: siteTexts } = useSiteTexts();
+
+    // Textos con fallback: Strapi > i18n
+    const loadingText = siteTexts?.loadingPackage || tCommon('loading.package');
 
     // Contexto de moneda para conversión de precios
     const { formatPrice, currency } = useCurrencyContext();
@@ -98,7 +102,7 @@ const PackageInfoPage = ({ onOpenQuote }) => {
             <div className="min-h-screen flex items-center justify-center bg-nieve">
                 <div className="animate-pulse text-center">
                     <div className="w-16 h-16 border-4 border-alpino border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-                    <p className="text-pizarra">{tCommon('loading.package')}</p>
+                    <p className="text-pizarra">{loadingText}</p>
                 </div>
             </div>
         );
